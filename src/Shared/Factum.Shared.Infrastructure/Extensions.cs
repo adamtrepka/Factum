@@ -6,6 +6,7 @@ using Factum.Shared.Infrastructure.Api;
 using Factum.Shared.Infrastructure.Auth;
 using Factum.Shared.Infrastructure.Commands;
 using Factum.Shared.Infrastructure.Contexts;
+using Factum.Shared.Infrastructure.Contracts;
 using Factum.Shared.Infrastructure.Dispatchers;
 using Factum.Shared.Infrastructure.Events;
 using Factum.Shared.Infrastructure.Exceptions;
@@ -95,6 +96,7 @@ public static class Extensions
         services.AddOutbox();
         services.AddSingleton<IClock, UtcClock>();
         services.AddSingleton<IDispatcher, InMemoryDispatcher>();
+        services.AddContracts();
         services.AddControllers()
             .ConfigureApplicationPartManager(manager =>
             {
