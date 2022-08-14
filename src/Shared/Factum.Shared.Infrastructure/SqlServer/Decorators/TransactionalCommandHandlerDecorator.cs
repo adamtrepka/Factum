@@ -6,7 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Factum.Shared.Infrastructure.Postgres.Decorators;
+namespace Factum.Shared.Infrastructure.SqlServer.Decorators;
 
 [Decorator]
 public class TransactionalCommandHandlerDecorator<T> : ICommandHandler<T> where T : class, ICommand

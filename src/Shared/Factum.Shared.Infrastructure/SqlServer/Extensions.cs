@@ -1,7 +1,7 @@
 ﻿using Factum.Shared.Abstractions.Commands;
 using Factum.Shared.Abstractions.Events;
 using Factum.Shared.Abstractions.Queries;
-using Factum.Shared.Infrastructure.Postgres.Decorators;
+using Factum.Shared.Infrastructure.SqlServer.Decorators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Factum.Shared.Infrastructure.Postgres;
+namespace Factum.Shared.Infrastructure.SqlServer;
 
 public static class Extensions
 {
@@ -62,9 +62,9 @@ public static class Extensions
         return await data.Skip((page - 1) * results).Take(results).ToListAsync(cancellationToken);
     }
 
-    public static IServiceCollection AddPostgres(this IServiceCollection services)
+    public static IServiceCollection AddSqlServer(this IServiceCollection services)
     {
-        var options = services.GetOptions<PostgresOptions>("postgres");
+        var options = services.GetOptions<SqlServerOptions>("postgres");
         services.AddSingleton(options);
         services.AddSingleton(new UnitOfWorkTypeRegistry());
 
@@ -79,10 +79,10 @@ public static class Extensions
         return services;
     }
 
-    public static IServiceCollection AddPostgres<T>(this IServiceCollection services) where T : DbContext
+    public static IServiceCollection AddSqlServer<T>(this IServiceCollection services) where T : DbContext
     {
-        var options = services.GetOptions<PostgresOptions>("postgres");
-        services.AddDbContext<T>(x => x.UseNpgsql(options.ConnectionString));
+        var options = services.GetOptions<SqlServerOptions>("sqlserver");
+        services.AddDbContext<T>(x => x.UseSqlServer(options.ConnectionString));
 
         return services;
     }

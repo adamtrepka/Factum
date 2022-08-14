@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Factum.Shared.Infrastructure.Postgres;
+namespace Factum.Shared.Infrastructure.SqlServer;
 
 public class UnitOfWorkTypeRegistry
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Factum.Shared.Infrastructure.Postgres;
+namespace Factum.Shared.Infrastructure.SqlServer;
 
 public interface IUnitOfWork
 {
