@@ -1,0 +1,8 @@
+{
+  "documents": {
+    "module": {
+      "name": "Documents",
+      "enabled": true
+    }
+  }
+}
