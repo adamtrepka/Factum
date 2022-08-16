@@ -79,10 +79,13 @@ public static class Extensions
         return services;
     }
 
-    public static IServiceCollection AddSqlServer<T>(this IServiceCollection services) where T : DbContext
+    public static IServiceCollection AddSqlServer<T>(this IServiceCollection services, string defaultSchemaName = "dbo") where T : DbContext
     {
         var options = services.GetOptions<SqlServerOptions>("sqlserver");
-        services.AddDbContext<T>(x => x.UseSqlServer(options.ConnectionString));
+        services.AddDbContext<T>(x => x.UseSqlServer(options.ConnectionString, options =>
+        {
+            options.MigrationsHistoryTable("__MigrationsHistory", defaultSchemaName);
+        }));
 
         return services;
     }
