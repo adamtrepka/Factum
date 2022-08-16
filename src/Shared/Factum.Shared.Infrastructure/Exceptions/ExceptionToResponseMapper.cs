@@ -13,7 +13,7 @@ public class ExceptionToResponseMapper : IExceptionToResponseMapper
     public ExceptionResponse Map(Exception exception)
         => exception switch
         {
-            ModularException ex => new ExceptionResponse(new ErrorsResponse(new Error(GetErrorCode(ex), ex.Message))
+            FactumException ex => new ExceptionResponse(new ErrorsResponse(new Error(GetErrorCode(ex), ex.Message))
                 , HttpStatusCode.BadRequest),
             _ => new ExceptionResponse(new ErrorsResponse(new Error("error", "There was an error.")),
                 HttpStatusCode.InternalServerError)
