@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Factum.Shared.Infrastructure\Factum.Shared.Infrastructure.csproj" />
-    <ProjectReference Include="..\Factum.Modules.Documents.Core\Factum.Modules.Documents.Core.csproj" />
+    <ProjectReference Include="..\Factum.Modules.Documents.Application\Factum.Modules.Documents.Application.csproj" />
   </ItemGroup>
 
 </Project>

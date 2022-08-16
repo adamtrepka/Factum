@@ -1,4 +1,5 @@
-﻿using Factum.Modules.Documents.Core;
+﻿using Factum.Modules.Documents.Application;
+using Factum.Modules.Documents.Core;
 using Factum.Modules.Documents.Infrastructure;
 using Factum.Shared.Abstractions.Modules;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,7 @@ namespace Factum.Modules.Documents.Api
         {
             services.AddCore();
             services.AddInfrastructure();
+            services.AddApplication();
         }
 
         public void Use(IApplicationBuilder app)

@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Factum.Shared.Abstractions\Factum.Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\Factum.Modules.Documents.Core\Factum.Modules.Documents.Core.csproj" />
+  </ItemGroup>
+
+</Project>
