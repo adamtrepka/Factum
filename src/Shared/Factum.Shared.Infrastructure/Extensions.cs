@@ -18,6 +18,7 @@ using Factum.Shared.Infrastructure.Modules;
 using Factum.Shared.Infrastructure.Queries;
 using Factum.Shared.Infrastructure.Security;
 using Factum.Shared.Infrastructure.Serialization;
+using Factum.Shared.Infrastructure.Services;
 using Factum.Shared.Infrastructure.SqlServer;
 using Factum.Shared.Infrastructure.Storage;
 using Factum.Shared.Infrastructure.Time;
@@ -94,10 +95,12 @@ public static class Extensions
         services.AddDomainEvents(assemblies);
         services.AddMessaging();
         services.AddSecurity();
-        services.AddSqlServer();
-        services.AddOutbox();
         services.AddSingleton<IClock, UtcClock>();
         services.AddSingleton<IDispatcher, InMemoryDispatcher>();
+        services.AddLoggingDecorators();
+        services.AddSqlServer();
+        services.AddOutbox();
+        services.AddHostedService<DbContextAppInitializer>();
         services.AddContracts();
         services.AddControllers()
             .ConfigureApplicationPartManager(manager =>
