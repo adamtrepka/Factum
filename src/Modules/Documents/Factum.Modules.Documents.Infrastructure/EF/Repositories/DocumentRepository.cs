@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
-namespace Factum.Modules.Documents.Infrastructure.Repositories
+namespace Factum.Modules.Documents.Infrastructure.EF.Repositories
 {
     internal class DocumentRepository : IDocumentRepository
     {

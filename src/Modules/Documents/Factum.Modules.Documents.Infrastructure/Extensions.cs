@@ -1,6 +1,6 @@
 ﻿using Factum.Modules.Documents.Core.Documents.Repositories;
 using Factum.Modules.Documents.Infrastructure.EF;
-using Factum.Modules.Documents.Infrastructure.Repositories;
+using Factum.Modules.Documents.Infrastructure.EF.Repositories;
 using Factum.Shared.Infrastructure.Messaging.Outbox;
 using Factum.Shared.Infrastructure.SqlServer;
 using Microsoft.Extensions.DependencyInjection;

@@ -64,7 +64,7 @@ public static class Extensions
 
     public static IServiceCollection AddSqlServer(this IServiceCollection services)
     {
-        var options = services.GetOptions<SqlServerOptions>("postgres");
+        var options = services.GetOptions<SqlServerOptions>("sqlserver");
         services.AddSingleton(options);
         services.AddSingleton(new UnitOfWorkTypeRegistry());
 
