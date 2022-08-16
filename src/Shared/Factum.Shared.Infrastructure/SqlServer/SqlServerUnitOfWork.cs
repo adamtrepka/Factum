@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace Factum.Shared.Infrastructure.SqlServer;
 
-public abstract class PostgresUnitOfWork<T> : IUnitOfWork where T : DbContext
+public abstract class SqlServerUnitOfWork<T> : IUnitOfWork where T : DbContext
 {
     private readonly T _dbContext;
 
-    protected PostgresUnitOfWork(T dbContext)
+    protected SqlServerUnitOfWork(T dbContext)
     {
         _dbContext = dbContext;
     }
