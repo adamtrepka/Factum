@@ -1,4 +1,6 @@
-﻿using Factum.Shared.Abstractions.Modules;
+﻿using Factum.Modules.Documents.Core;
+using Factum.Modules.Documents.Infrastructure;
+using Factum.Shared.Abstractions.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -22,7 +24,8 @@ namespace Factum.Modules.Documents.Api
 
         public void Register(IServiceCollection services)
         {
-
+            services.AddCore();
+            services.AddInfrastructure();
         }
 
         public void Use(IApplicationBuilder app)
