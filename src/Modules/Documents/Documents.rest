@@ -1,0 +1,15 @@
+@url = http://localhost:5000/Documents
+
+POST {{url}} HTTP/1.1
+Accept: application/json
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="documentId"
+
+{{$guid}}
+--MyBoundary
+Content-Disposition: form-data; name="file"; filename="readme.md"
+
+< ..\..\..\readme.md
+--MyBoundary--
