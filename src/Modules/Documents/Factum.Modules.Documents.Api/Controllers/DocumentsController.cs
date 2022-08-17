@@ -1,4 +1,6 @@
 ﻿using Factum.Modules.Documents.Application.Documents.Commands;
+using Factum.Modules.Documents.Application.Documents.Queries;
+using Factum.Modules.Documents.Core.Documents.DTO;
 using Factum.Shared.Abstractions.Contexts;
 using Factum.Shared.Abstractions.Dispatchers;
 using Factum.Shared.Infrastructure.Api;
@@ -27,8 +29,21 @@ internal class DocumentsController : Controller
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
+    [HttpGet("{documentId:guid}")]
+    [SwaggerOperation("Get document")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<DocumentDto>> GetAsync(Guid documentId)
+    {
+        var result = await _dispatcher.QueryAsync(new GetDocument { DocumentId = documentId });
+
+        return result is not null ? Ok(result) : NotFound();
+    }
+
     [HttpPost]
-    [SwaggerOperation("add document")]
+    [SwaggerOperation("Add document")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

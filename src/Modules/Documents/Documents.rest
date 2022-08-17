@@ -1,5 +1,11 @@
 @url = http://localhost:5000/Documents
+@documentId = 25E1EDEA-FE52-45A3-A33E-E0C73DE7271E
 
+
+### Get document
+GET {{url}}/{{documentId}} HTTP/1.1
+
+### Add document
 POST {{url}} HTTP/1.1
 Accept: application/json
 Content-Type: multipart/form-data; boundary=MyBoundary
@@ -7,7 +13,7 @@ Content-Type: multipart/form-data; boundary=MyBoundary
 --MyBoundary
 Content-Disposition: form-data; name="documentId"
 
-{{$guid}}
+{{documentId}}
 --MyBoundary
 Content-Disposition: form-data; name="file"; filename="readme.md"
 

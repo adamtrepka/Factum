@@ -1,7 +1,11 @@
 ﻿using Factum.Modules.Documents.Application;
+using Factum.Modules.Documents.Application.Documents.Queries;
 using Factum.Modules.Documents.Core;
+using Factum.Modules.Documents.Core.Documents.DTO;
 using Factum.Modules.Documents.Infrastructure;
+using Factum.Shared.Abstractions.Dispatchers;
 using Factum.Shared.Abstractions.Modules;
+using Factum.Shared.Infrastructure.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,7 +36,10 @@ internal class DocumentsModule : IModule
 
     public void Use(IApplicationBuilder app)
     {
-
+        app.UseModuleRequests()
+           .Subscribe<GetDocument, DocumentDto>("documents/get", 
+                                                (query, serviceProvider, cancellationToken) => serviceProvider.GetRequiredService<IDispatcher>()
+                                                                                                              .QueryAsync(query, cancellationToken));
     }
 }
 
