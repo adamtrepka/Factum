@@ -1,4 +1,5 @@
 ﻿using Factum.Shared.Abstractions.Kernel.Types;
+using System;
 
 namespace Factum.Modules.Documents.Core.Documents.Types
 {

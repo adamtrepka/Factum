@@ -1,5 +1,6 @@
 ﻿using Factum.Modules.Documents.Core.Documents.Entities;
 using Factum.Modules.Documents.Core.Documents.Types;
+using System.Threading.Tasks;
 
 namespace Factum.Modules.Documents.Core.Documents.Repositories
 {

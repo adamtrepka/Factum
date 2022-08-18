@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DocumentsDbContext))]
-    [Migration("20220816091810_Documents_Init")]
-    partial class Documents_Init
+    [Migration("20220818080120_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,12 +36,12 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                     b.Property<Guid?>("BusinessId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("File")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("FileName")
                         .IsRequired()

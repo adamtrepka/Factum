@@ -9,4 +9,8 @@
     <ProjectReference Include="..\Factum.Modules.Documents.Application\Factum.Modules.Documents.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EF\Migrations\" />
+  </ItemGroup>
+
 </Project>

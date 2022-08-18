@@ -1,4 +1,5 @@
 ﻿using Factum.Shared.Abstractions.Exceptions;
+using System;
 
 namespace Factum.Modules.Documents.Core.Documents.Exceptions;
 
