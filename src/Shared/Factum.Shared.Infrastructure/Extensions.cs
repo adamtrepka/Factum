@@ -4,6 +4,7 @@ using Factum.Shared.Abstractions.Storage;
 using Factum.Shared.Abstractions.Time;
 using Factum.Shared.Infrastructure.Api;
 using Factum.Shared.Infrastructure.Auth;
+using Factum.Shared.Infrastructure.Blob;
 using Factum.Shared.Infrastructure.Commands;
 using Factum.Shared.Infrastructure.Contexts;
 using Factum.Shared.Infrastructure.Contracts;
@@ -102,6 +103,7 @@ public static class Extensions
         services.AddOutbox();
         services.AddHostedService<DbContextAppInitializer>();
         services.AddContracts();
+        services.AddLocalBlobStorate();
         services.AddControllers()
             .ConfigureApplicationPartManager(manager =>
             {
