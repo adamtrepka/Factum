@@ -29,5 +29,8 @@ namespace Factum.Modules.Ledger.Core.Domain.Entities
         public Guid DocumentId { get; private set; }
         public byte[] FileHash { get; private set; }
 
+        public BlockId BlockId { get; private set; }
+        public Block Block { get; private set; }
+
     }
 }
