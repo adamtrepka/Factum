@@ -1,3 +1,4 @@
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -16,5 +17,18 @@ public sealed class Hasher : IHasher
         }
 
         return builder.ToString();
+    }
+    public byte[] Hash(byte[] bytes)
+    {
+        using var sha512 = SHA512.Create();
+        var hash = sha512.ComputeHash(bytes);
+        return hash;
+    }
+
+    public byte[] Hash(Stream stream)
+    {
+        using var sha512 = SHA512.Create();
+        var hash = sha512.ComputeHash(stream);
+        return hash;
     }
 }
