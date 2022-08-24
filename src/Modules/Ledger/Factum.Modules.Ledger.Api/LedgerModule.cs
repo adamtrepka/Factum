@@ -1,5 +1,7 @@
 ﻿using Factum.Modules.Ledger.Core;
+using Factum.Modules.Ledger.Core.Events.External;
 using Factum.Shared.Abstractions.Modules;
+using Factum.Shared.Infrastructure.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +25,8 @@ namespace Factum.Modules.Ledger.Api
 
         public void Use(IApplicationBuilder app)
         {
+            app.UseContracts()
+               .Register<DocumentAddedContract>();
         }
     }
 }
