@@ -27,8 +27,9 @@ namespace Factum.Modules.Documents.Application.Documents.Queries.Handlers
                 var dto = new DocumentDto
                 {
                     DocumentId = document.BusinessId,
-                    FileName = document.FileName,
-                    ContentType = document.ContentType
+                    FileName = document.File.Name,
+                    ContentType = document.File.ContentType,
+                    FileHash = document.File.Hash
                 };
                 return dto;
             }

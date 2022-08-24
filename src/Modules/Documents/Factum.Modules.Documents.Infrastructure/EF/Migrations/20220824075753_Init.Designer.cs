@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DocumentsDbContext))]
-    [Migration("20220818080120_Init")]
+    [Migration("20220824075753_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,16 +36,8 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                     b.Property<Guid?>("BusinessId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Version")
                         .IsConcurrencyToken()
@@ -113,6 +105,33 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Outbox", "documents");
+                });
+
+            modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Document", b =>
+                {
+                    b.OwnsOne("Factum.Modules.Documents.Core.Documents.ValueObjects.File", "File", b1 =>
+                        {
+                            b1.Property<int>("DocumentId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("ContentType")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<byte[]>("Hash")
+                                .HasColumnType("varbinary(max)");
+
+                            b1.Property<string>("Name")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("DocumentId");
+
+                            b1.ToTable("Documents", "documents");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DocumentId");
+                        });
+
+                    b.Navigation("File");
                 });
 #pragma warning restore 612, 618
         }

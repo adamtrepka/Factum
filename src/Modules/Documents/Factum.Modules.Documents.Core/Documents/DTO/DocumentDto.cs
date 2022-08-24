@@ -11,5 +11,6 @@ namespace Factum.Modules.Documents.Core.Documents.DTO
         public Guid DocumentId { get; set; }
         public string FileName { get; set; }
         public string ContentType { get; set; }
+        public byte[] FileHash { get; set; }
     }
 }

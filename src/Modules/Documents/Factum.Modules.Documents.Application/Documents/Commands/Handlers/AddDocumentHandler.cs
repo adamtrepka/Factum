@@ -5,6 +5,7 @@ using Factum.Shared.Abstractions.Blob;
 using Factum.Shared.Abstractions.Commands;
 using Factum.Shared.Abstractions.Messaging;
 using Factum.Shared.Abstractions.Time;
+using Factum.Shared.Infrastructure.Security.Encryption;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,23 +24,33 @@ namespace Factum.Modules.Documents.Application.Documents.Commands.Handlers
         private readonly IMessageBroker _messageBroker;
         private readonly ILogger<AddDocumentHandler> _logger;
         private readonly IBlobStorage _blobStorage;
+        private readonly IHasher _hasher;
 
-        public AddDocumentHandler(IClock clock, IDocumentRepository repository, IMessageBroker messageBroker, ILogger<AddDocumentHandler> logger, IBlobStorage blobStorage)
+        public AddDocumentHandler(IClock clock,
+                                  IDocumentRepository repository,
+                                  IMessageBroker messageBroker,
+                                  ILogger<AddDocumentHandler> logger,
+                                  IBlobStorage blobStorage,
+                                  IHasher hasher)
         {
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _messageBroker = messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _blobStorage = blobStorage ?? throw new ArgumentNullException(nameof(blobStorage));
+            _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
         }
         public async Task HandleAsync(AddDocument command, CancellationToken cancellationToken = default)
         {
-            var document = new Document(command.documentId, command.file.FileName, command.file.ContentType, _clock.CurrentDate());
+            var document = new Document(command.documentId, _clock.CurrentDate());
+
+            using var fileStream = command.file.OpenReadStream();
+
+            var fileHash = _hasher.Hash(fileStream);
+            document.AttachedFile(command.file.Name, command.file.ContentType,fileHash);
 
             await _repository.AddAsync(document);
             await _messageBroker.PublishAsync(new DocumentAdded(document.BusinessId), cancellationToken);
-
-            using var fileStream = command.file.OpenReadStream();
 
             await _blobStorage.UploadAsync(fileStream, document.BusinessId.ToString(), command.file.FileName, cancellationToken);
 
