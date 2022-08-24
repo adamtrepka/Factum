@@ -21,7 +21,9 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Configurations
 
             builder.Property(x => x.BusinessId)
                 .HasConversion(x => x.Value, x => new DocumentId(x));
-            builder.OwnsOne(x => x.File);
+
+            builder.OwnsOne(x => x.File)
+                .Property(x => x.Hash).IsRequired(true);
         }
     }
 }
