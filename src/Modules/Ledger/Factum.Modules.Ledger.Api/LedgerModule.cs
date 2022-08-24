@@ -1,4 +1,5 @@
-﻿using Factum.Shared.Abstractions.Modules;
+﻿using Factum.Modules.Ledger.Core;
+using Factum.Shared.Abstractions.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,7 @@ namespace Factum.Modules.Ledger.Api
 
         public void Register(IServiceCollection services)
         {
+            services.AddCore();
         }
 
         public void Use(IApplicationBuilder app)
