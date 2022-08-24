@@ -18,6 +18,6 @@ namespace Factum.Modules.Ledger.Core.Clients.Documents
         }
 
         public Task<DocumentDto> GetAsync(Guid id, CancellationToken cancellationToken = default)
-            => _moduleClient.SendAsync<DocumentDto>("documents/get", new { documentId = id }, cancellationToken);
+            => _moduleClient.SendAsync<DocumentDto>("documents/get", new { DocumentId = id }, cancellationToken);
     }
 }
