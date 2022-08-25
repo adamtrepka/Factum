@@ -63,7 +63,7 @@ public sealed class RedisCache : ICache
     }
 
     public Task SetAsync<T>(string key, T value, TimeSpan? expiry = null)
-        => _database.StringSetAsync(key, _jsonSerializer.Serialize(value), expiry);
+        => _database.StringSetAsync(key, _jsonSerializer.SerializeToJsonString(value), expiry);
 
     public Task DeleteAsync<T>(string key)
         => _database.KeyDeleteAsync(key);
@@ -78,5 +78,5 @@ public sealed class RedisCache : ICache
         => _database.SetContainsAsync(key, AsString(value));
 
     private string AsString<T>(T value)
-        => PrimitiveTypes.Contains(typeof(T)) ? value.ToString() : _jsonSerializer.Serialize(value);
+        => PrimitiveTypes.Contains(typeof(T)) ? value.ToString() : _jsonSerializer.SerializeToJsonString(value);
 }

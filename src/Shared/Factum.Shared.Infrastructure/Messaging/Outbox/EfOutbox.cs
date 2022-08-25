@@ -71,7 +71,7 @@ public sealed class EfOutbox<T> : IOutbox where T : DbContext
                     Id = context.MessageId,
                     CorrelationId = context.Context.CorrelationId,
                     Name = x.GetType().Name.Underscore(),
-                    Data = _jsonSerializer.Serialize((object)x),
+                    Data = _jsonSerializer.SerializeToJsonString((object)x),
                     Type = x.GetType().AssemblyQualifiedName,
                     CreatedAt = _clock.CurrentDate(),
                     TraceId = context.Context.TraceId,

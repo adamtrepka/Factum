@@ -13,9 +13,13 @@ public class SystemTextJsonSerializer : IJsonSerializer
         Converters = { new JsonStringEnumConverter() }
     };
 
-    public string Serialize<T>(T value) => JsonSerializer.Serialize(value, Options);
+    public string SerializeToJsonString<T>(T value) => JsonSerializer.Serialize(value, Options);
+
+    public byte[] SerializeToUtf8Bytes<T>(T value) => JsonSerializer.SerializeToUtf8Bytes(value, Options);
 
     public T Deserialize<T>(string value) => JsonSerializer.Deserialize<T>(value, Options);
+    public T Deserialize<T>(byte[] value) => JsonSerializer.Deserialize<T>(value,Options);
 
     public object Deserialize(string value, Type type) => JsonSerializer.Deserialize(value, type, Options);
+
 }
