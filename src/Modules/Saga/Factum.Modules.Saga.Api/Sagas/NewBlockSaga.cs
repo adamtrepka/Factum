@@ -40,11 +40,16 @@ namespace Factum.Modules.Saga.Api.Sagas
             }
             else
             {
+                await _messageBroker.PublishAsync(new SagaComplated());
                 await CompleteAsync();
             }
         }
         public Task CompensateAsync(BlockValidated message, ISagaContext context) => Task.CompletedTask;
-        public Task HandleAsync(BlockRejected message, ISagaContext context) => RejectAsync();
+        public async Task HandleAsync(BlockRejected message, ISagaContext context)
+        {
+            await _messageBroker.PublishAsync(new SagaRejected());
+            await CompleteAsync();
+        }
         public Task CompensateAsync(BlockRejected message, ISagaContext context) => Task.CompletedTask;
 
 

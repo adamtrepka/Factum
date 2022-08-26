@@ -4,12 +4,12 @@ using Factum.Shared.Abstractions.Messaging;
 
 namespace Factum.Modules.Ledger.Application.Blocks.Events.Externals
 {
-    internal record SagaComplated() : IEvent;
+    internal record SagaRejected() : IEvent;
 
     [Message("Saga")]
-    internal class SagaComplatedContract : Contract<SagaComplated>
+    internal class SagaRejectedContract : Contract<SagaRejected>
     {
-        public SagaComplatedContract()
+        public SagaRejectedContract()
         {
         }
     }
