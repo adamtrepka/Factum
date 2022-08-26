@@ -7,4 +7,6 @@ public interface IHasher
     string Hash(string data);
     byte[] Hash(byte[] bytes);
     byte[] Hash(Stream stream);
+    byte[] Hash<T>(T value);
+    bool Validate<T>(T value, byte[] hash);
 }
