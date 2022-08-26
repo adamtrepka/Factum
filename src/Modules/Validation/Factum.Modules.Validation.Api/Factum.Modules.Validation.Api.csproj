@@ -6,16 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Chronicle_" Version="3.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Factum.Shared.Abstractions\Factum.Shared.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\Shared\Factum.Shared.Infrastructure\Factum.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\Factum.Modules.Validation.Core\Factum.Modules.Validation.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="module.saga.json">
+    <None Update="module.validation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

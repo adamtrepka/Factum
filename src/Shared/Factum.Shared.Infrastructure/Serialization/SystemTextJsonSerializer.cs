@@ -10,7 +10,8 @@ public class SystemTextJsonSerializer : IJsonSerializer
     {
         PropertyNameCaseInsensitive = true,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Converters = { new JsonStringEnumConverter() }
+        Converters = { new JsonStringEnumConverter() },
+        ReferenceHandler = ReferenceHandler.IgnoreCycles        
     };
 
     public string SerializeToJsonString<T>(T value) => JsonSerializer.Serialize(value, Options);

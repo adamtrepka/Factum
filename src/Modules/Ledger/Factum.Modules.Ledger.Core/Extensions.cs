@@ -1,11 +1,10 @@
-﻿using Factum.Modules.Ledger.Core.Clients.Documents;
-using Factum.Modules.Ledger.Core.EF;
-using Factum.Shared.Infrastructure.Messaging.Outbox;
-using Factum.Shared.Infrastructure.SqlServer;
+﻿using Factum.Modules.Ledger.Core.Blocks.Policies;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Factum.Modules.Ledger.Api")]
+[assembly: InternalsVisibleTo("Factum.Modules.Ledger.Application")]
+[assembly: InternalsVisibleTo("Factum.Modules.Ledger.Infrastructure")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace Factum.Modules.Ledger.Core
@@ -14,10 +13,8 @@ namespace Factum.Modules.Ledger.Core
     {
         public static IServiceCollection AddCore(this IServiceCollection services)
         {
-            services.AddSingleton<IDocumentApiClient, DocumentApiClient>();
-            services.AddSqlServer<LedgerDbContext>(defaultSchemaName: LedgerDbContext.DefaultSchemaName);
-            services.AddOutbox<LedgerDbContext>();
-            services.AddUnitOfWork<LedgerUnitOfWork>();
+            services.AddScoped<IBlockCreationPolicy, BlockCreationPolicy>();
+            services.AddScoped<IBlockConfirmationPolicy, BlockConfirmationPolicy>();
 
             return services;
         }

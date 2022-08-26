@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,15 +8,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Factum.Shared.Abstractions\Factum.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Shared\Factum.Shared.Infrastructure\Factum.Shared.Infrastructure.csproj" />
-    <ProjectReference Include="..\Factum.Modules.Ledger.Application\Factum.Modules.Ledger.Application.csproj" />
     <ProjectReference Include="..\Factum.Modules.Ledger.Core\Factum.Modules.Ledger.Core.csproj" />
     <ProjectReference Include="..\Factum.Modules.Ledger.Infrastructure\Factum.Modules.Ledger.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="module.ledger.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

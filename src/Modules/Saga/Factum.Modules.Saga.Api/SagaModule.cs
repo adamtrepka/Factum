@@ -20,6 +20,7 @@ namespace Factum.Modules.Saga.Api
 
         public void Use(IApplicationBuilder app)
         {
+            
         }
     }
 }

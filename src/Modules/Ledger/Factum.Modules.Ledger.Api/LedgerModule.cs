@@ -1,7 +1,14 @@
-﻿using Factum.Modules.Ledger.Core;
-using Factum.Modules.Ledger.Core.Events.External;
+﻿using Factum.Modules.Ledger.Application;
+using Factum.Modules.Ledger.Application.Blocks.DTO;
+using Factum.Modules.Ledger.Application.Blocks.Events.Externals;
+using Factum.Modules.Ledger.Application.Blocks.Queries;
+using Factum.Modules.Ledger.Application.Entries.Events.External;
+using Factum.Modules.Ledger.Core;
+using Factum.Modules.Ledger.Infrastructure;
+using Factum.Shared.Abstractions.Dispatchers;
 using Factum.Shared.Abstractions.Modules;
 using Factum.Shared.Infrastructure.Contracts;
+using Factum.Shared.Infrastructure.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,12 +28,21 @@ namespace Factum.Modules.Ledger.Api
         public void Register(IServiceCollection services)
         {
             services.AddCore();
+            services.AddApplication();
+            services.AddInfrastructure();   
         }
 
         public void Use(IApplicationBuilder app)
         {
             app.UseContracts()
-               .Register<DocumentAddedContract>();
+               .Register<DocumentAddedContract>()
+               .Register<BlockValidatedContract>()
+               .Register<BlockRejectedContract>();
+
+            app.UseModuleRequests()
+               .Subscribe<GetBlock, BlockDetailsDto>("ledger/get",
+                    (query, serviceProvider, cancellationToken) => serviceProvider.GetRequiredService<IDispatcher>()
+                                                                                  .QueryAsync(query, cancellationToken));
         }
     }
 }
