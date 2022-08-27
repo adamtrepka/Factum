@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Factum.Modules.Ledger.Core\Factum.Modules.Ledger.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EF\Migrations\" />
+  </ItemGroup>
+
 </Project>

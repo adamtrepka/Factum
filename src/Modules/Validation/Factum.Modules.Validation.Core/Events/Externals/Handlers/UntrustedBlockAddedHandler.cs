@@ -24,7 +24,14 @@ namespace Factum.Modules.Validation.Core.Events.Externals.Handlers
         }
         public async Task HandleAsync(UntrustedBlockAdded @event, CancellationToken cancellationToken = default)
         {
+
             var block = await _ledgerApiClient.GetAsync(@event.BlockId, cancellationToken);
+
+            if(block is null)
+            {
+                await _messageBroker.PublishAsync(new BlockRejected(@event.BlockId), cancellationToken);
+                return;
+            }
 
             var previousBlockTestResult = true;
 
@@ -36,11 +43,11 @@ namespace Factum.Modules.Validation.Core.Events.Externals.Handlers
 
             if (previousBlockTestResult is true)
             {
-                await _messageBroker.PublishAsync(new BlockValidated(block.Id), cancellationToken);
+                await _messageBroker.PublishAsync(new BlockValidated(@event.BlockId), cancellationToken);
             }
             else
             {
-                await _messageBroker.PublishAsync(new BlockRejected(block.Id), cancellationToken);
+                await _messageBroker.PublishAsync(new BlockRejected(@event.BlockId), cancellationToken);
             }
         }
     }

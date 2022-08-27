@@ -10,7 +10,7 @@ namespace Factum.Modules.Ledger.Core.Blocks.Policies
 
     internal class BlockCreationPolicy : IBlockCreationPolicy
     {
-        private readonly int _requiredNumberOfEntriesToCreateNewBlock = 3;
+        private readonly int _requiredNumberOfEntriesToCreateNewBlock = 4;
         private readonly IEntryRepository _entryRepository;
 
         public BlockCreationPolicy(IEntryRepository entryRepository)

@@ -22,24 +22,24 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Repositories
             await _ledgerDbContext.SaveChangesAsync();
         }
 
-        public async Task<int> CountWaitingToBeProcessed()
+        public Task<int> CountWaitingToBeProcessed()
         {
-            return await _entries.CountAsync(x => x.BlockId == null);
+            return _entries.CountAsync(x => x.BlockId == null);
         }
 
-        public async Task<Entry> GetAsync(EntryId entryId)
+        public Task<Entry> GetAsync(EntryId entryId)
         {
-            return await _entries.SingleOrDefaultAsync(x => x.BusinessId == entryId);
+            return _entries.SingleAsync(x => x.BusinessId == entryId);
         }
 
-        public async Task<List<Entry>> GetAsync(BlockId blockId)
+        public Task<List<Entry>> GetAsync(BlockId blockId)
         {
-            return await _entries.Where(x => x.BlockId == blockId).OrderBy(x => x.Id).ToListAsync();
+            return _entries.Where(x => x.BlockId == blockId).OrderBy(x => x.Id).ToListAsync();
         }
 
-        public async Task<List<Entry>> GetWithoutBlock(int take = 3)
+        public Task<List<Entry>> GetWithoutBlock(int take = 3)
         {
-            return await _entries.Where(x => x.BlockId == null).OrderBy(x => x.Id).Take(take).ToListAsync();
+            return _entries.Where(x => x.BlockId == null).OrderBy(x => x.Id).Take(take).ToListAsync();
         }
     }
 }

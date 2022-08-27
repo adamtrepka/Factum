@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Factum.Modules.Ledger.Core.EF.Migrations
+namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
 {
     public partial class Init : Migration
     {
@@ -22,6 +22,7 @@ namespace Factum.Modules.Ledger.Core.EF.Migrations
                     PreviousBlockId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PreviousBlockHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     EntriesRootHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Confirmation = table.Column<int>(type: "int", nullable: false),
                     BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Version = table.Column<int>(type: "int", nullable: false)
                 },
@@ -92,7 +93,8 @@ namespace Factum.Modules.Ledger.Core.EF.Migrations
                         column: x => x.BlockId,
                         principalSchema: "ledger",
                         principalTable: "Blockchain",
-                        principalColumn: "BusinessId");
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(

@@ -1,5 +1,6 @@
 ﻿using Factum.Modules.Ledger.Core.Blocks.Repositories;
 using Factum.Modules.Ledger.Core.Entries.Repositories;
+using Factum.Modules.Ledger.Infrastructure.Clients.Saga;
 using Factum.Modules.Ledger.Infrastructure.EF;
 using Factum.Modules.Ledger.Infrastructure.EF.Repositories;
 using Factum.Shared.Infrastructure.Messaging.Outbox;
@@ -23,6 +24,8 @@ internal static class Extensions
         services.AddUnitOfWork<LedgerUnitOfWork>();
         services.AddScoped<IBlockRepository, BlockRepository>();
         services.AddScoped<IEntryRepository, EntryRepository>();
+
+        services.AddSingleton<ISagaApiClient, SagaApiClient>();
 
         return services;
     }

@@ -19,7 +19,7 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Configurations
             builder.Property(x => x.BlockId)
                    .HasConversion(x => x.Value, x => new BlockId(x));
 
-            builder.HasOne(x => x.Block).WithMany(x => x.Entries).HasForeignKey(x => x.BlockId).HasPrincipalKey(x => x.BusinessId).IsRequired(false);
+            builder.HasOne(x => x.Block).WithMany(x => x.Entries).HasForeignKey(x => x.BlockId).HasPrincipalKey(x => x.BusinessId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

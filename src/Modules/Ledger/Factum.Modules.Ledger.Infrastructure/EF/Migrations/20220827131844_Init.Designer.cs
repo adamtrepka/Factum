@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Factum.Modules.Ledger.Core.EF.Migrations
+namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(LedgerDbContext))]
-    [Migration("20220824113802_Init")]
+    [Migration("20220827131844_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Factum.Modules.Ledger.Core.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Factum.Modules.Ledger.Core.Domain.Entities.Block", b =>
+            modelBuilder.Entity("Factum.Modules.Ledger.Core.Blocks.Entities.Block", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,6 +35,9 @@ namespace Factum.Modules.Ledger.Core.EF.Migrations
 
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Confirmation")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("EntriesRootHash")
                         .HasColumnType("varbinary(max)");
@@ -61,7 +64,7 @@ namespace Factum.Modules.Ledger.Core.EF.Migrations
                     b.ToTable("Blockchain", "ledger");
                 });
 
-            modelBuilder.Entity("Factum.Modules.Ledger.Core.Domain.Entities.Entry", b =>
+            modelBuilder.Entity("Factum.Modules.Ledger.Core.Entries.Entities.Entry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -147,27 +150,28 @@ namespace Factum.Modules.Ledger.Core.EF.Migrations
                     b.ToTable("Outbox", "ledger");
                 });
 
-            modelBuilder.Entity("Factum.Modules.Ledger.Core.Domain.Entities.Block", b =>
+            modelBuilder.Entity("Factum.Modules.Ledger.Core.Blocks.Entities.Block", b =>
                 {
-                    b.HasOne("Factum.Modules.Ledger.Core.Domain.Entities.Block", "PreviousBlock")
+                    b.HasOne("Factum.Modules.Ledger.Core.Blocks.Entities.Block", "PreviousBlock")
                         .WithOne()
-                        .HasForeignKey("Factum.Modules.Ledger.Core.Domain.Entities.Block", "PreviousBlockId")
-                        .HasPrincipalKey("Factum.Modules.Ledger.Core.Domain.Entities.Block", "BusinessId");
+                        .HasForeignKey("Factum.Modules.Ledger.Core.Blocks.Entities.Block", "PreviousBlockId")
+                        .HasPrincipalKey("Factum.Modules.Ledger.Core.Blocks.Entities.Block", "BusinessId");
 
                     b.Navigation("PreviousBlock");
                 });
 
-            modelBuilder.Entity("Factum.Modules.Ledger.Core.Domain.Entities.Entry", b =>
+            modelBuilder.Entity("Factum.Modules.Ledger.Core.Entries.Entities.Entry", b =>
                 {
-                    b.HasOne("Factum.Modules.Ledger.Core.Domain.Entities.Block", "Block")
+                    b.HasOne("Factum.Modules.Ledger.Core.Blocks.Entities.Block", "Block")
                         .WithMany("Entries")
                         .HasForeignKey("BlockId")
-                        .HasPrincipalKey("BusinessId");
+                        .HasPrincipalKey("BusinessId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Block");
                 });
 
-            modelBuilder.Entity("Factum.Modules.Ledger.Core.Domain.Entities.Block", b =>
+            modelBuilder.Entity("Factum.Modules.Ledger.Core.Blocks.Entities.Block", b =>
                 {
                     b.Navigation("Entries");
                 });

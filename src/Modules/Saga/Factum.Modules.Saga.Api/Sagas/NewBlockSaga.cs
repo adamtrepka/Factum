@@ -20,15 +20,13 @@ namespace Factum.Modules.Saga.Api.Sagas
         {
             _messageBroker = messageBroker;
         }
-        public Task HandleAsync(BlockAdded message, ISagaContext context)
+        public async Task HandleAsync(BlockAdded message, ISagaContext context)
         {
             Data.BlockId = message.NewBlockId;
             Data.Confirmed = message.Confirmed;
             Data.RequiredConfirmations = message.RequiredConfirmations;
 
-            _messageBroker.PublishAsync(new UntrustedBlockAdded(message.NewBlockId));
-
-            return Task.CompletedTask;
+            await _messageBroker.PublishAsync(new UntrustedBlockAdded(Data.BlockId));
         }
         public Task CompensateAsync(BlockAdded message, ISagaContext context) => Task.CompletedTask;
         public async Task HandleAsync(BlockValidated message, ISagaContext context)
@@ -36,7 +34,7 @@ namespace Factum.Modules.Saga.Api.Sagas
             Data.BlockVerified++;
             if (Data.BlockVerified < Data.RequiredConfirmations)
             {
-                await _messageBroker.PublishAsync(new UntrustedBlockAdded(message.BlockId));
+                await _messageBroker.PublishAsync(new UntrustedBlockAdded(Data.BlockId));
             }
             else
             {

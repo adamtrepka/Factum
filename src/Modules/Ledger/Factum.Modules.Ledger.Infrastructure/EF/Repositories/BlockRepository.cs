@@ -28,19 +28,24 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Repositories
 
         public async Task DeleteAsync(BlockId id)
         {
-            var block = await GetAsync(id);
+            var block = await _blocks.IgnoreAutoIncludes().FirstOrDefaultAsync(x => x.BusinessId == id);
             _blocks.Remove(block);
             await _ledgerDbContext.SaveChangesAsync();
         }
 
-        public async Task<Block> GetAsync(BlockId id)
+        public Task<Block> GetAsync(BlockId id)
         {
-            return await _blocks.Include(x => x.Entries).SingleOrDefaultAsync(x => x.BusinessId == id);
+            return _blocks.Include(x => x.Entries).SingleOrDefaultAsync(x => x.BusinessId == id);
         }
 
         public async Task<Block> GetLastAsync()
         {
-           return await _blocks.Include(x => x.Entries).OrderBy(x => x.Id).LastOrDefaultAsync();
+            var last = await _blocks.Include(x => x.Entries).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
+
+            if (last is null && await _blocks.AnyAsync())
+                throw new Exception("Unable to get last block");
+
+            return last;
         }
 
         public async Task UpdateAsync(Block block)

@@ -20,7 +20,7 @@ namespace Factum.Modules.Ledger.Application.Blocks.Queries.Handlers
         public async Task<BlockDetailsDto> HandleAsync(GetBlock query, CancellationToken cancellationToken = default)
         {
             var block = await _blockRepository.GetAsync(query.Id);
-            return block.MapToDto();
+            return block?.MapToDto();
         }
     }
 }
