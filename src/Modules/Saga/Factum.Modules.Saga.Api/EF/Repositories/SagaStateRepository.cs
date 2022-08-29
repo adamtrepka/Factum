@@ -35,8 +35,8 @@ namespace Factum.Modules.Saga.Api.EF.Repositories
             }
             else
             {
-                entity = new SagaStateEntity(state.Id, state.Type, state.State, state.Data);
-                await _sagas.AddAsync(entity);
+                var newEntity = new SagaStateEntity(state.Id, state.Type, state.State, state.Data);
+                await _sagas.AddAsync(newEntity);
             }
 
             await _sagaDbContext.SaveChangesAsync();

@@ -28,11 +28,9 @@ namespace Factum.Modules.Saga.Api
             services.AddDbContext<SagaDbContext>(x => x.UseSqlServer(options.ConnectionString, options =>
             {
                 options.MigrationsHistoryTable("__MigrationsHistory", SagaDbContext.DefaultSchemaName);
-            }),optionsLifetime: ServiceLifetime.Transient);
-
-            //services.AddOutbox<SagaDbContext>();
-            //services.AddScoped<ISagaStateRepository, SagaStateRepository>();
-            //services.AddScoped<ISagaLog, SagaLogger>();
+            }), 
+            optionsLifetime: ServiceLifetime.Transient, 
+            contextLifetime: ServiceLifetime.Transient);
 
             services.AddChronicle(config =>
             {

@@ -19,12 +19,11 @@ namespace Factum.Modules.Saga.Api.EF.Repositories
             return await _logs.Where(x => x.Id == id && x.Type == type).ToListAsync();
         }
 
-        public Task WriteAsync(ISagaLogData message)
+        public async Task WriteAsync(ISagaLogData message)
         {
-            return Task.CompletedTask;
-            //var entity = new SagaLogDataEntity(message.Id, message.Type, message.CreatedAt, message.Message);
-            //await _logs.AddAsync(entity);
-            //await _sagaDbContext.SaveChangesAsync();
+            var entity = new SagaLogDataEntity(message.Id, message.Type, message.CreatedAt, message.Message);
+            await _logs.AddAsync(entity);
+            await _sagaDbContext.SaveChangesAsync();
         }
     }
 }

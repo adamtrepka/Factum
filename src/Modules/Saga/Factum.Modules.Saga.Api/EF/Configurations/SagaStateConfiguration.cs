@@ -18,6 +18,7 @@ namespace Factum.Modules.Saga.Api.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<SagaStateEntity> builder)
         {
+            builder.Ignore(x => x.PrimaryKey);
             builder.HasKey(x => x.PrimaryKey);
             builder.Property(x => x.Id).HasConversion(v => v.ToString(), v => v);
             builder.HasIndex(x => new {x.Id, x.TypeName}).IsClustered(false);
