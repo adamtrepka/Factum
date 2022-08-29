@@ -1,15 +1,9 @@
-﻿using Chronicle;
-using Factum.Modules.Saga.Api.EF;
-using Factum.Modules.Saga.Api.EF.Repositories;
-using Factum.Modules.Saga.Api.Sagas;
-using Factum.Modules.Saga.Api.Services;
+﻿using Factum.Modules.Saga.Core;
+using Factum.Modules.Saga.Core.Services;
+using Factum.Modules.Saga.Infrastructure;
 using Factum.Shared.Abstractions.Modules;
-using Factum.Shared.Infrastructure;
-using Factum.Shared.Infrastructure.Messaging.Outbox;
 using Factum.Shared.Infrastructure.Modules;
-using Factum.Shared.Infrastructure.SqlServer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Factum.Modules.Saga.Api
@@ -24,20 +18,8 @@ namespace Factum.Modules.Saga.Api
 
         public void Register(IServiceCollection services)
         {
-            var options = services.GetOptions<SqlServerOptions>("sqlserver");
-            services.AddDbContext<SagaDbContext>(x => x.UseSqlServer(options.ConnectionString, options =>
-            {
-                options.MigrationsHistoryTable("__MigrationsHistory", SagaDbContext.DefaultSchemaName);
-            }), 
-            optionsLifetime: ServiceLifetime.Transient, 
-            contextLifetime: ServiceLifetime.Transient);
-
-            services.AddChronicle(config =>
-            {
-                config.UseSagaStateRepository<SagaStateRepository>();
-                config.UseSagaLog<SagaLogger>();
-            });
-            services.AddTransient<ISagaService, SagaService>();
+            services.AddCore();
+            services.AddInfrastructure();
         }
 
         public void Use(IApplicationBuilder app)

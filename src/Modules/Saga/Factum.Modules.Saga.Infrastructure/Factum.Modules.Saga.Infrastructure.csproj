@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,14 +12,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Factum.Shared.Abstractions\Factum.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Shared\Factum.Shared.Infrastructure\Factum.Shared.Infrastructure.csproj" />
-    <ProjectReference Include="..\Factum.Modules.Saga.Core\Factum.Modules.Saga.Core.csproj" />
-    <ProjectReference Include="..\Factum.Modules.Saga.Infrastructure\Factum.Modules.Saga.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="module.saga.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Folder Include="EF\Chronicle\Migrations\" />
+    <Folder Include="EF\Saga\Migrations\" />
   </ItemGroup>
 
 </Project>

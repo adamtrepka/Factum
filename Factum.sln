@@ -41,9 +41,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Ledger.Infra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Validation", "Validation", "{0C00FD48-578B-480C-A431-179B22CE47AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Validation.Api", "src\Modules\Validation\Factum.Modules.Validation.Api\Factum.Modules.Validation.Api.csproj", "{06EDA0F8-E0AE-4434-88DE-68C2FD3030BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Validation.Api", "src\Modules\Validation\Factum.Modules.Validation.Api\Factum.Modules.Validation.Api.csproj", "{06EDA0F8-E0AE-4434-88DE-68C2FD3030BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Validation.Core", "src\Modules\Validation\Factum.Modules.Validation.Core\Factum.Modules.Validation.Core.csproj", "{16F6C67B-FABB-4CA7-ABDA-1A4B6D8DEE65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Validation.Core", "src\Modules\Validation\Factum.Modules.Validation.Core\Factum.Modules.Validation.Core.csproj", "{16F6C67B-FABB-4CA7-ABDA-1A4B6D8DEE65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Saga.Infrastructure", "src\Modules\Saga\Factum.Modules.Saga.Infrastructure\Factum.Modules.Saga.Infrastructure.csproj", "{F912A24D-48DD-4AB1-8BC5-B689667E78FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Saga.Core", "src\Modules\Saga\Factum.Modules.Saga.Core\Factum.Modules.Saga.Core.csproj", "{F451CC23-FF79-492A-8499-C654A5DBDAE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +111,14 @@ Global
 		{16F6C67B-FABB-4CA7-ABDA-1A4B6D8DEE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16F6C67B-FABB-4CA7-ABDA-1A4B6D8DEE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16F6C67B-FABB-4CA7-ABDA-1A4B6D8DEE65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F912A24D-48DD-4AB1-8BC5-B689667E78FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F912A24D-48DD-4AB1-8BC5-B689667E78FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F912A24D-48DD-4AB1-8BC5-B689667E78FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F912A24D-48DD-4AB1-8BC5-B689667E78FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F451CC23-FF79-492A-8499-C654A5DBDAE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F451CC23-FF79-492A-8499-C654A5DBDAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F451CC23-FF79-492A-8499-C654A5DBDAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F451CC23-FF79-492A-8499-C654A5DBDAE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +142,8 @@ Global
 		{0C00FD48-578B-480C-A431-179B22CE47AB} = {2A45B56B-887D-424E-B692-F35A79A23047}
 		{06EDA0F8-E0AE-4434-88DE-68C2FD3030BC} = {0C00FD48-578B-480C-A431-179B22CE47AB}
 		{16F6C67B-FABB-4CA7-ABDA-1A4B6D8DEE65} = {0C00FD48-578B-480C-A431-179B22CE47AB}
+		{F912A24D-48DD-4AB1-8BC5-B689667E78FA} = {41298FD3-3633-4DAE-B57A-0B229DEF540B}
+		{F451CC23-FF79-492A-8499-C654A5DBDAE8} = {41298FD3-3633-4DAE-B57A-0B229DEF540B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35BABB60-AF50-42A9-8EAB-79B7A1142E81}
