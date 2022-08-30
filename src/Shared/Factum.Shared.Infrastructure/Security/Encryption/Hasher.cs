@@ -1,4 +1,5 @@
 using Factum.Shared.Infrastructure.Serialization;
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -51,5 +52,10 @@ public sealed class Hasher : IHasher
     {
         var valueHash = Hash(value);
         return hash.SequenceEqual(valueHash);
+    }
+
+    public string HashToString(byte[] hash)
+    {
+        return BitConverter.ToString(hash);
     }
 }

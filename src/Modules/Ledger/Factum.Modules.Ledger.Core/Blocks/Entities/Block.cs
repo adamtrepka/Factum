@@ -25,9 +25,8 @@ namespace Factum.Modules.Ledger.Core.Blocks.Entities
             PreviousBlockHash = previousBlockHash;
         }
 
-        public void AddEntries(List<Entry> entries, byte[] entriesRootHash)
+        public void SetEntriesRootHash(byte[] entriesRootHash)
         {
-            Entries.AddRange(entries);
             EntriesRootHash = entriesRootHash;
         }
 

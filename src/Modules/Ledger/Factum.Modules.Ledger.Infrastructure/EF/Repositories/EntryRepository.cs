@@ -39,7 +39,7 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Repositories
 
         public Task<List<Entry>> GetWithoutBlock(int take = 3)
         {
-            return _entries.Where(x => x.BlockId == null).OrderBy(x => x.Id).Take(take).ToListAsync();
+            return _entries.Include(x => x.Metadata).Where(x => x.BlockId == null).OrderBy(x => x.Id).Take(take).ToListAsync();
         }
     }
 }

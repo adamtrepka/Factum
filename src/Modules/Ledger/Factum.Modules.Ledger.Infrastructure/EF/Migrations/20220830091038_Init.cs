@@ -80,14 +80,14 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FileHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MetadataHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     BlockId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Entries", x => x.Id);
+                    table.UniqueConstraint("AK_Entries_BusinessId", x => x.BusinessId);
                     table.ForeignKey(
                         name: "FK_Entries_Blockchain_BlockId",
                         column: x => x.BlockId,
@@ -95,6 +95,29 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
                         principalTable: "Blockchain",
                         principalColumn: "BusinessId",
                         onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EntryMetadata",
+                schema: "ledger",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EntryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EntryMetadata", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EntryMetadata_Entries_EntryId",
+                        column: x => x.EntryId,
+                        principalSchema: "ledger",
+                        principalTable: "Entries",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -123,14 +146,26 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
                 schema: "ledger",
                 table: "Entries",
                 column: "BusinessId",
-                unique: true,
-                filter: "[BusinessId] IS NOT NULL");
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntryMetadata_EntryId",
+                schema: "ledger",
+                table: "EntryMetadata",
+                column: "EntryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntryMetadata_Key_Value",
+                schema: "ledger",
+                table: "EntryMetadata",
+                columns: new[] { "Key", "Value" })
+                .Annotation("SqlServer:Clustered", false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Entries",
+                name: "EntryMetadata",
                 schema: "ledger");
 
             migrationBuilder.DropTable(
@@ -139,6 +174,10 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Outbox",
+                schema: "ledger");
+
+            migrationBuilder.DropTable(
+                name: "Entries",
                 schema: "ledger");
 
             migrationBuilder.DropTable(

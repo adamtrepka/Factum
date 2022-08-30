@@ -1,3 +1,3 @@
 Add new migration
 
-`Add-Migration -Name <migration-name> -StartupProject Bootstrapper\Factum.Bootstrapper -Project Modules\Documents\Factum.Modules.Documents.Infrastructure -OutputDir .\EF\Migrations -Context LedgerDbContext`
+`Add-Migration -Name Init -StartupProject Bootstrapper\Factum.Bootstrapper -Project Modules\Ledger\Factum.Modules.Ledger.Infrastructure -OutputDir .\EF\Migrations -Context LedgerDbContext`

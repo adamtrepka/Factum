@@ -35,12 +35,12 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Repositories
 
         public Task<Block> GetAsync(BlockId id)
         {
-            return _blocks.Include(x => x.Entries).SingleOrDefaultAsync(x => x.BusinessId == id);
+            return _blocks.Include(x => x.Entries).ThenInclude(x => x.Metadata).SingleOrDefaultAsync(x => x.BusinessId == id);
         }
 
         public async Task<Block> GetLastAsync()
         {
-            var last = await _blocks.Include(x => x.Entries).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
+            var last = await _blocks.Include(x => x.Entries).ThenInclude(x => x.Metadata).OrderByDescending(x => x.Id).FirstOrDefaultAsync();
 
             if (last is null && await _blocks.AnyAsync())
                 throw new Exception("Unable to get last block");

@@ -29,8 +29,8 @@ namespace Factum.Modules.Ledger.Application.Blocks.DTO
                 Entries = block?.Entries?.Select(x => new EntryDto()
                 {
                     Id = x.BusinessId,
-                    DocumentId = x.DocumentId,
-                    FileHash = x.FileHash,
+                    Metadata = x.Metadata?.ToDictionary(x => x.Key, x => x.Value),
+                    MetadataHash = x.MetadataHash
                 }).ToList().AsReadOnly()
             };
         }

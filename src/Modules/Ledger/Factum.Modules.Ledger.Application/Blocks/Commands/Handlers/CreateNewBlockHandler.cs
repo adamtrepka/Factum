@@ -81,7 +81,13 @@ namespace Factum.Modules.Ledger.Application.Blocks.Commands.Handlers
             var entriesToProceed = await _entryRepository.GetWithoutBlock(numberOfEntriesToProceed);
 
             var newBlock = new Block(previousBlock?.BusinessId, previousBlockHash);
-            newBlock.AddEntries(entriesToProceed, Array.Empty<byte>());
+
+            foreach(var entry in entriesToProceed)
+            {
+                var entryMetadata = entry.Metadata.ToDictionary(x => x.Key, x => x.Value);
+                var entryMetadataHash = _hasher.Hash(entryMetadata);
+                entry.AttatchToBlock(newBlock.BusinessId, entryMetadataHash);
+            }
 
             await _blockRepository.AddAsync(newBlock);
 

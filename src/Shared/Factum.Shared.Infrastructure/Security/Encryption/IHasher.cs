@@ -8,5 +8,6 @@ public interface IHasher
     byte[] Hash(byte[] bytes);
     byte[] Hash(Stream stream);
     byte[] Hash<T>(T value);
+    string HashToString(byte[] hash);
     bool Validate<T>(T value, byte[] hash);
 }

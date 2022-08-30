@@ -34,6 +34,7 @@ namespace Factum.Modules.Validation.Core.Events.Externals.Handlers
             }
 
             var previousBlockTestResult = true;
+            var metadataHashTestResult = true;
 
             if (block.PreviousBlockId.HasValue)
             {
@@ -41,7 +42,9 @@ namespace Factum.Modules.Validation.Core.Events.Externals.Handlers
                 previousBlockTestResult = _hasher.Validate(previousBlock, block.PreviousBlockHash);
             }
 
-            if (previousBlockTestResult is true)
+            metadataHashTestResult = block.Entries.All(x => _hasher.Validate(x.Metadata, x.MetadataHash));
+
+            if (previousBlockTestResult && metadataHashTestResult is true)
             {
                 await _messageBroker.PublishAsync(new BlockValidated(@event.BlockId), cancellationToken);
             }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(LedgerDbContext))]
-    [Migration("20220827131844_Init")]
+    [Migration("20220830091038_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,13 +75,10 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
                     b.Property<Guid?>("BlockId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BusinessId")
+                    b.Property<Guid>("BusinessId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DocumentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte[]>("FileHash")
+                    b.Property<byte[]>("MetadataHash")
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
@@ -89,10 +86,37 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
                     b.HasIndex("BlockId");
 
                     b.HasIndex("BusinessId")
-                        .IsUnique()
-                        .HasFilter("[BusinessId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Entries", "ledger");
+                });
+
+            modelBuilder.Entity("Factum.Modules.Ledger.Core.Entries.Entities.EntryMetadata", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("EntryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntryId");
+
+                    b.HasIndex("Key", "Value");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("Key", "Value"), false);
+
+                    b.ToTable("EntryMetadata", "ledger");
                 });
 
             modelBuilder.Entity("Factum.Shared.Infrastructure.Messaging.Outbox.InboxMessage", b =>
@@ -171,9 +195,26 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Migrations
                     b.Navigation("Block");
                 });
 
+            modelBuilder.Entity("Factum.Modules.Ledger.Core.Entries.Entities.EntryMetadata", b =>
+                {
+                    b.HasOne("Factum.Modules.Ledger.Core.Entries.Entities.Entry", "Entry")
+                        .WithMany("Metadata")
+                        .HasForeignKey("EntryId")
+                        .HasPrincipalKey("BusinessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Entry");
+                });
+
             modelBuilder.Entity("Factum.Modules.Ledger.Core.Blocks.Entities.Block", b =>
                 {
                     b.Navigation("Entries");
+                });
+
+            modelBuilder.Entity("Factum.Modules.Ledger.Core.Entries.Entities.Entry", b =>
+                {
+                    b.Navigation("Metadata");
                 });
 #pragma warning restore 612, 618
         }
