@@ -17,5 +17,7 @@ namespace Factum.Modules.Ledger.Core.Entries.Types
         {
         }
         public override string ToString() => Value.ToString();
+        public static implicit operator EntryId(Guid id) => new EntryId(id);
+
     }
 }

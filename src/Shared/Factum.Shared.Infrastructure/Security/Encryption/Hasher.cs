@@ -56,6 +56,6 @@ public sealed class Hasher : IHasher
 
     public string HashToString(byte[] hash)
     {
-        return BitConverter.ToString(hash);
+        return System.Text.Json.JsonSerializer.Serialize(hash).Replace("\"", string.Empty);
     }
 }

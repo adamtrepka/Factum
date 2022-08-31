@@ -76,5 +76,17 @@ namespace Factum.Shared.Tests
             var proof = result.GetProof(lastHash);
             var isValid = _merkleTree.Validate(proof, lastHash, result.Root.Hash);
         }
+
+        [Fact]
+        public void Merkle_Root_hash_should_be_diffrent_if_change_order_of_input_hashes()
+        {
+            var hashes = Enumerable.Range(0, 64).Select(x => _hasher.Hash(x)).ToList();
+            var randomHashes = hashes.OrderBy(x => Random.Shared.Next(hashes.Count())).ToList();
+
+            var firstTreeResult = _merkleTree.BuildTree(hashes);
+            var secondTreeResult = _merkleTree.BuildTree(randomHashes);
+
+            Assert.False(firstTreeResult.Root.Hash.SequenceEqual(secondTreeResult.Root.Hash));
+        }
     }
 }

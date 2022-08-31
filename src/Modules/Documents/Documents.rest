@@ -1,5 +1,6 @@
 @url = http://localhost:5000/Documents
-@documentId = 25E1EDEA-FE52-45A3-A33E-E0C73DE7271E
+@documentId = 7D3F4242-C899-4A2F-9026-B083C523A105
+#@documentId = {{$guid}}
 
 
 ### Get document

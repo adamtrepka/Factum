@@ -1,4 +1,5 @@
 ﻿using Factum.Modules.Ledger.Application.Blocks.DTO;
+using Factum.Modules.Ledger.Application.Entries.DTO;
 using Factum.Modules.Ledger.Core.Blocks.Repositories;
 using Factum.Shared.Abstractions.Queries;
 using System;

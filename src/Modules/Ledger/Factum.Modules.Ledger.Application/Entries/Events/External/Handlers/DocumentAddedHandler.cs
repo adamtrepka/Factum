@@ -39,7 +39,7 @@ namespace Factum.Modules.Ledger.Application.Entries.Events.External.Handlers
                 {nameof(document.ContentType),document.ContentType},
                 {nameof(document.FileHash),_hasher.HashToString(document.FileHash)},
             };
-            var entry = new Entry(documentMetadata);
+            var entry = new Entry(document.DocumentId, documentMetadata);
 
             await _entryRepository.AddAsync(entry);
 

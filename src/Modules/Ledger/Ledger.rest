@@ -1,0 +1,4 @@
+@proofs-url = http://localhost:5000/Proofs
+
+### Get proof for document
+GET {{proofs-url}}/Documents/7D3F4242-C899-4A2F-9026-B083C523A105 HTTP/1.1
