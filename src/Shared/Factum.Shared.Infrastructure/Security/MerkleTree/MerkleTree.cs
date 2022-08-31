@@ -42,7 +42,7 @@ namespace Factum.Shared.Infrastructure.Security.MerkleTree
             {
                 var left = pair[0];
                 var right = pair[1];
-                var concatHashes = left.Hash.Concat(right.Hash);
+                var concatHashes = left.Hash.Concat(right.Hash).ToArray();
                 var nodeHash = _hasher.Hash(concatHashes);
                 var node = new Node(left, right, nodeHash);
                 nextLevel.Add(node);
@@ -52,13 +52,36 @@ namespace Factum.Shared.Infrastructure.Security.MerkleTree
             {
                 var left = single[0];
                 var right = single[0];
-                var concatHashes = left.Hash.Concat(right.Hash);
+                var concatHashes = left.Hash.Concat(right.Hash).ToArray();
                 var nodeHash = _hasher.Hash(concatHashes);
                 var node = new Node(left, right, nodeHash);
                 nextLevel.Add(node);
             }
 
             BuildTree(nextLevel);
+        }
+
+        public bool Validate(List<ProofNode> proofNodes, byte[] hash, byte[] root)
+        {
+            var proofHash = hash;
+            foreach(var node in proofNodes)
+            {
+                if(node is RightNode)
+                {
+                    var concat = node.Hash.Concat(proofHash).ToArray();
+                    proofHash = _hasher.Hash(concat);
+                }
+                else if (node is LeftNode)
+                {
+                    var concat = proofHash.Concat(node.Hash).ToArray();
+                    proofHash = _hasher.Hash(concat);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return proofHash.SequenceEqual(root);
         }
     }
 }

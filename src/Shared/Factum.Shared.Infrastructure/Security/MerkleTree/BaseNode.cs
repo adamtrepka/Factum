@@ -5,7 +5,7 @@ namespace Factum.Shared.Infrastructure.Security.MerkleTree
 {
     public abstract class BaseNode
     {
-        public BaseNode Parrent { get; set; }
+        public Node Parrent { get; set; }
         public byte[] Hash { get; set; }
     }
 }

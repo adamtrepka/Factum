@@ -55,5 +55,26 @@ namespace Factum.Shared.Tests
             Assert.NotNull(result.Root);
             Assert.Equal(1024, result.Leaves.Count);
         }
+
+        [Theory]
+        [InlineData(4)]
+        [InlineData(8)]
+        [InlineData(16)]
+        [InlineData(32)]
+        [InlineData(64)]
+        [InlineData(128)]
+        [InlineData(256)]
+        [InlineData(512)]
+        [InlineData(1024)]
+        public void MerkleProofTest(int length)
+        {
+            var hashes = Enumerable.Range(0, length).Select(x => _hasher.Hash(x));
+            var result = _merkleTree.BuildTree(hashes);
+
+            var lastHash = hashes.Last();
+
+            var proof = result.GetProof(lastHash);
+            var isValid = _merkleTree.Validate(proof, lastHash, result.Root.Hash);
+        }
     }
 }
