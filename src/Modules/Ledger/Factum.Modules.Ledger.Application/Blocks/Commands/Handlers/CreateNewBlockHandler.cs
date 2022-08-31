@@ -9,6 +9,7 @@ using Factum.Modules.Ledger.Infrastructure.EF;
 using Factum.Shared.Abstractions.Commands;
 using Factum.Shared.Abstractions.Messaging;
 using Factum.Shared.Infrastructure.Security.Encryption;
+using Factum.Shared.Infrastructure.Security.MerkleTree;
 using Factum.Shared.Infrastructure.Serialization;
 using Factum.Shared.Infrastructure.SqlServer;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace Factum.Modules.Ledger.Application.Blocks.Commands.Handlers
         private readonly IEntryRepository _entryRepository;
         private readonly ISagaApiClient _sagaApiClient;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMerkleTree _merkleTree;
 
         public CreateNewBlockHandler(ILogger<CreateNewBlockHandler> logger,
                                      IMessageBroker messageBroker,
@@ -36,7 +38,8 @@ namespace Factum.Modules.Ledger.Application.Blocks.Commands.Handlers
                                      IBlockRepository blockRepository,
                                      IEntryRepository entryRepository,
                                      ISagaApiClient sagaApiClient,
-                                     IUnitOfWork unitOfWork)
+                                     IUnitOfWork unitOfWork,
+                                     IMerkleTree merkleTree)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _messageBroker = messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
@@ -47,6 +50,7 @@ namespace Factum.Modules.Ledger.Application.Blocks.Commands.Handlers
             _entryRepository = entryRepository ?? throw new ArgumentNullException(nameof(entryRepository));
             _sagaApiClient = sagaApiClient ?? throw new ArgumentNullException(nameof(sagaApiClient));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _merkleTree = merkleTree ?? throw new ArgumentNullException(nameof(merkleTree));
         }
         public async Task HandleAsync(CreateNewBlock command, CancellationToken cancellationToken = default)
         {
@@ -88,6 +92,9 @@ namespace Factum.Modules.Ledger.Application.Blocks.Commands.Handlers
                 var entryMetadataHash = _hasher.Hash(entryMetadata);
                 entry.AttatchToBlock(newBlock.BusinessId, entryMetadataHash);
             }
+
+            var merkleTreeResult =  _merkleTree.BuildTree(entriesToProceed.Select(x => x.MetadataHash));
+            newBlock.SetEntriesRootHash(merkleTreeResult.Root.Hash);
 
             await _blockRepository.AddAsync(newBlock);
 

@@ -45,9 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Validation.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Validation.Core", "src\Modules\Validation\Factum.Modules.Validation.Core\Factum.Modules.Validation.Core.csproj", "{16F6C67B-FABB-4CA7-ABDA-1A4B6D8DEE65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Saga.Infrastructure", "src\Modules\Saga\Factum.Modules.Saga.Infrastructure\Factum.Modules.Saga.Infrastructure.csproj", "{F912A24D-48DD-4AB1-8BC5-B689667E78FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Saga.Infrastructure", "src\Modules\Saga\Factum.Modules.Saga.Infrastructure\Factum.Modules.Saga.Infrastructure.csproj", "{F912A24D-48DD-4AB1-8BC5-B689667E78FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Saga.Core", "src\Modules\Saga\Factum.Modules.Saga.Core\Factum.Modules.Saga.Core.csproj", "{F451CC23-FF79-492A-8499-C654A5DBDAE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Saga.Core", "src\Modules\Saga\Factum.Modules.Saga.Core\Factum.Modules.Saga.Core.csproj", "{F451CC23-FF79-492A-8499-C654A5DBDAE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D0BB17DD-2456-4314-BDCB-FF3AA77F2B11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Shared.Tests", "src\Shared\Factum.Shared.Tests\Factum.Shared.Tests.csproj", "{E4FF921B-8A7A-46C3-BF13-89F4B4EA3905}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +123,10 @@ Global
 		{F451CC23-FF79-492A-8499-C654A5DBDAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F451CC23-FF79-492A-8499-C654A5DBDAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F451CC23-FF79-492A-8499-C654A5DBDAE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4FF921B-8A7A-46C3-BF13-89F4B4EA3905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4FF921B-8A7A-46C3-BF13-89F4B4EA3905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4FF921B-8A7A-46C3-BF13-89F4B4EA3905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4FF921B-8A7A-46C3-BF13-89F4B4EA3905}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +152,8 @@ Global
 		{16F6C67B-FABB-4CA7-ABDA-1A4B6D8DEE65} = {0C00FD48-578B-480C-A431-179B22CE47AB}
 		{F912A24D-48DD-4AB1-8BC5-B689667E78FA} = {41298FD3-3633-4DAE-B57A-0B229DEF540B}
 		{F451CC23-FF79-492A-8499-C654A5DBDAE8} = {41298FD3-3633-4DAE-B57A-0B229DEF540B}
+		{D0BB17DD-2456-4314-BDCB-FF3AA77F2B11} = {BF89C089-EAEF-4D28-A1E6-72330B8516AE}
+		{E4FF921B-8A7A-46C3-BF13-89F4B4EA3905} = {D0BB17DD-2456-4314-BDCB-FF3AA77F2B11}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35BABB60-AF50-42A9-8EAB-79B7A1142E81}

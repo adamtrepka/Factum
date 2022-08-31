@@ -1,4 +1,5 @@
 ﻿using Factum.Shared.Infrastructure.Security.Encryption;
+using Factum.Shared.Infrastructure.Security.MerkleTree;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -39,6 +40,7 @@ public static class Extensions
             .AddSingleton<IEncryptor, Encryptor>()
             .AddSingleton<IHasher, Hasher>()
             .AddSingleton<IMd5, Md5>()
-            .AddSingleton<IRng, Rng>();
+            .AddSingleton<IRng, Rng>()
+            .AddSingleton<IMerkleTree, MerkleTree.MerkleTree>();
     }
 }
