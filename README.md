@@ -2,4 +2,4 @@
 
 ## Factum Ledger Blockchain
 
-![Blockchain](assets\blockchain.png)
+![Blockchain](assets/blockchain.png)
