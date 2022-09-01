@@ -17,6 +17,7 @@ internal static class Extensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         return services.AddScoped<IDocumentRepository, DocumentRepository>()
+                       .AddScoped<IAccessRepository,AccessRepository>()
                        .AddSqlServer<DocumentsDbContext>(defaultSchemaName: DocumentsDbContext.DefaultSchemaName)
                        .AddOutbox<DocumentsDbContext>()
                        .AddUnitOfWork<DocumentsUnitOfWork>();

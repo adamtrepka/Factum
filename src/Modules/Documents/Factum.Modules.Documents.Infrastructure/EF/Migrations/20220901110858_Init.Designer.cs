@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(DocumentsDbContext))]
-    [Migration("20220824075753_Init")]
+    [Migration("20220901110858_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,42 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Access", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AccessType")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid?>("BusinessId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("GrantedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("GrantedTo")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusinessId")
+                        .IsUnique()
+                        .HasFilter("[BusinessId] IS NOT NULL");
+
+                    b.HasIndex("DocumentId", "AccessType", "GrantedTo");
+
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("DocumentId", "AccessType", "GrantedTo"), false);
+
+                    b.ToTable("Accesses", "documents");
+                });
+
             modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Document", b =>
                 {
                     b.Property<int>("Id")
@@ -33,7 +69,7 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid?>("BusinessId")
+                    b.Property<Guid>("BusinessId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -46,8 +82,7 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BusinessId")
-                        .IsUnique()
-                        .HasFilter("[BusinessId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Documents", "documents");
                 });
@@ -107,6 +142,16 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                     b.ToTable("Outbox", "documents");
                 });
 
+            modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Access", b =>
+                {
+                    b.HasOne("Factum.Modules.Documents.Core.Documents.Entities.Document", "Document")
+                        .WithMany("Accesses")
+                        .HasForeignKey("DocumentId")
+                        .HasPrincipalKey("BusinessId");
+
+                    b.Navigation("Document");
+                });
+
             modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Document", b =>
                 {
                     b.OwnsOne("Factum.Modules.Documents.Core.Documents.ValueObjects.File", "File", b1 =>
@@ -118,6 +163,7 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<byte[]>("Hash")
+                                .IsRequired()
                                 .HasColumnType("varbinary(max)");
 
                             b1.Property<string>("Name")
@@ -132,6 +178,11 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                         });
 
                     b.Navigation("File");
+                });
+
+            modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Document", b =>
+                {
+                    b.Navigation("Accesses");
                 });
 #pragma warning restore 612, 618
         }

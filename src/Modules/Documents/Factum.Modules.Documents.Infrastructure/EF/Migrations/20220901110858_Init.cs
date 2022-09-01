@@ -23,12 +23,13 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                     File_ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     File_Hash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Version = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Documents", x => x.Id);
+                    table.UniqueConstraint("AK_Documents_BusinessId", x => x.BusinessId);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,19 +67,57 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                     table.PrimaryKey("PK_Outbox", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Accesses",
+                schema: "documents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AccessType = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    GrantedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    GrantedTo = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accesses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Accesses_Documents_DocumentId",
+                        column: x => x.DocumentId,
+                        principalSchema: "documents",
+                        principalTable: "Documents",
+                        principalColumn: "BusinessId");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accesses_BusinessId",
+                schema: "documents",
+                table: "Accesses",
+                column: "BusinessId",
+                unique: true,
+                filter: "[BusinessId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accesses_DocumentId_AccessType_GrantedTo",
+                schema: "documents",
+                table: "Accesses",
+                columns: new[] { "DocumentId", "AccessType", "GrantedTo" })
+                .Annotation("SqlServer:Clustered", false);
+
             migrationBuilder.CreateIndex(
                 name: "IX_Documents_BusinessId",
                 schema: "documents",
                 table: "Documents",
                 column: "BusinessId",
-                unique: true,
-                filter: "[BusinessId] IS NOT NULL");
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Documents",
+                name: "Accesses",
                 schema: "documents");
 
             migrationBuilder.DropTable(
@@ -87,6 +126,10 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Outbox",
+                schema: "documents");
+
+            migrationBuilder.DropTable(
+                name: "Documents",
                 schema: "documents");
         }
     }

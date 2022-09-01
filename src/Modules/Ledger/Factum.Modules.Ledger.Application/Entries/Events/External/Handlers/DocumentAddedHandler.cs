@@ -6,6 +6,7 @@ using Factum.Shared.Abstractions.Dispatchers;
 using Factum.Shared.Abstractions.Events;
 using Factum.Shared.Infrastructure.Security.Encryption;
 using Microsoft.Extensions.Logging;
+using System.Reflection.Metadata;
 
 namespace Factum.Modules.Ledger.Application.Entries.Events.External.Handlers
 {
@@ -34,6 +35,7 @@ namespace Factum.Modules.Ledger.Application.Entries.Events.External.Handlers
             var document = await _documentApiClient.GetAsync(@event.documentId, cancellationToken);
             var documentMetadata = new Dictionary<string, string>
             {
+                {"Type",nameof(DocumentAdded)},
                 {nameof(document.DocumentId),document.DocumentId.ToString()},
                 {nameof(document.FileName),document.FileName.ToString()},
                 {nameof(document.ContentType),document.ContentType},

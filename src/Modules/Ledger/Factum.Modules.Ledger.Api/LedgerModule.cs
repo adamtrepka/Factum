@@ -39,7 +39,8 @@ namespace Factum.Modules.Ledger.Api
                .Register<BlockValidatedContract>()
                .Register<BlockRejectedContract>()
                .Register<SagaComplatedContract>()
-               .Register<SagaRejectedContract>();
+               .Register<SagaRejectedContract>()
+               .Register<DocumentAccessGrantedContract>();
 
             app.UseModuleRequests()
                .Subscribe<GetBlock, BlockDetailsDto>("ledger/get",

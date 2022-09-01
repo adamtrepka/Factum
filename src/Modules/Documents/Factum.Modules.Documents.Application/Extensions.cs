@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Factum.Modules.Documents.Application.Documents.Events;
+using Factum.Shared.Abstractions.Kernel;
+using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Factum.Modules.Documents.Api")]
@@ -11,6 +13,7 @@ internal static class Extensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddSingleton<IEventMapper, EventMapper>();
         return services;
     }
 }

@@ -24,7 +24,7 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<Document> GetAsync(DocumentId id) => _documents.SingleOrDefaultAsync(x => x.BusinessId == id);
+        public Task<Document> GetAsync(DocumentId id) => _documents.Include(x => x.Accesses).SingleOrDefaultAsync(x => x.BusinessId == id);
 
     }
 }

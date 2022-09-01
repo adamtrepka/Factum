@@ -24,6 +24,8 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Configurations
 
             builder.OwnsOne(x => x.File)
                 .Property(x => x.Hash).IsRequired(true);
+
+            builder.HasMany(x => x.Accesses).WithOne(x => x.Document).HasForeignKey(x => x.DocumentId);
         }
     }
 }

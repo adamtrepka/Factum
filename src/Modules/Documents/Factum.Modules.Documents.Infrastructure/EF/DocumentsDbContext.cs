@@ -11,6 +11,7 @@ internal class DocumentsDbContext : DbContext
     public DbSet<InboxMessage> Inbox { get; set; }
     public DbSet<OutboxMessage> Outbox { get; set; }
     public DbSet<Document> Documents { get; set; }
+    public DbSet<Access> Accesses { get; set; }
 
     public DocumentsDbContext(DbContextOptions<DocumentsDbContext> options) : base(options)
     {
