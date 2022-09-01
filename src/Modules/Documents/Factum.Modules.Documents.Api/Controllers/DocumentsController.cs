@@ -4,6 +4,7 @@ using Factum.Modules.Documents.Core.Documents.DTO;
 using Factum.Shared.Abstractions.Contexts;
 using Factum.Shared.Abstractions.Dispatchers;
 using Factum.Shared.Infrastructure.Api;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -18,6 +19,7 @@ namespace Factum.Modules.Documents.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(DocumentsModule.DocumentsPolicyName)]
 internal class DocumentsController : Controller
 {
     private readonly IDispatcher _dispatcher;

@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\Modules\Documents\Factum.Modules.Documents.Api\Factum.Modules.Documents.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Ledger\Factum.Modules.Ledger.Api\Factum.Modules.Ledger.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Saga\Factum.Modules.Saga.Api\Factum.Modules.Saga.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Users\Factum.Modules.Users.Api\Factum.Modules.Users.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Validation\Factum.Modules.Validation.Api\Factum.Modules.Validation.Api.csproj" />
     <ProjectReference Include="..\..\Shared\Factum.Shared.Abstractions\Factum.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\Shared\Factum.Shared.Infrastructure\Factum.Shared.Infrastructure.csproj" />

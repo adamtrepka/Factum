@@ -16,7 +16,7 @@ namespace Factum.Modules.Ledger.Api
 {
     public class LedgerModule : IModule
     {
-        public static readonly string LedgerPolicyName = "ledger";
+        public const string LedgerPolicyName = "ledger";
 
         public string Name => "Ledger";
 

@@ -1,6 +1,7 @@
 ﻿using Factum.Modules.Ledger.Application.Blocks.DTO;
 using Factum.Modules.Ledger.Application.Blocks.Queries;
 using Factum.Shared.Abstractions.Dispatchers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -14,6 +15,7 @@ namespace Factum.Modules.Ledger.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(LedgerModule.LedgerPolicyName)]
     internal class ProofsController : Controller
     {
         private readonly IDispatcher _dispatcher;

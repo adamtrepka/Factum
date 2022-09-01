@@ -18,7 +18,7 @@ namespace Factum.Modules.Documents.Api;
 
 internal class DocumentsModule : IModule
 {
-    public static readonly string DocumentsPolicyName = "documents";
+    public const string DocumentsPolicyName = "documents";
 
     public string Name => "Documents";
 
@@ -37,7 +37,7 @@ internal class DocumentsModule : IModule
     public void Use(IApplicationBuilder app)
     {
         app.UseModuleRequests()
-           .Subscribe<GetDocument, DocumentDto>("documents/get", 
+           .Subscribe<GetDocument, DocumentDto>("documents/get",
                                                 (query, serviceProvider, cancellationToken) => serviceProvider.GetRequiredService<IDispatcher>()
                                                                                                               .QueryAsync(query, cancellationToken));
     }
