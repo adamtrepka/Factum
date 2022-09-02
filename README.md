@@ -6,14 +6,19 @@ Factum is the sample document workflow based on blockchain. Application was buil
 
 ## Starting the application
 Start project and infrastructure using docker
+
 ```
+docker-compose build
 docker-compose up -d
 ```
+
 Start API located under Bootstrapper project:
+
 ```
 cd src\Bootstrapper\Factum.Bootstrapper
 dotnet run
 ```
+
 ## Solution structure
 
 ### Bootstrapper

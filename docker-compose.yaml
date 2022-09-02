@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  bootstrapper:
+    build: .
+    container_name: bootstrapper
+    restart: unless-stopped
+    environment:
+      sqlserver:connectionString: Data Source=sqlserver;Initial Catalog=Factum;User Id=SA;Password=Factum_password123;
+      localBlobStorage:rootDirectory: /app/blob
+    ports:
+      - 5000:80
+    networks:
+      - factum
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./blob:/app/blob
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "Factum_password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
+    networks:
+      - factum
+
+networks:
+  factum:
+    name: factum-network
