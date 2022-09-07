@@ -1,4 +1,5 @@
-﻿using Factum.Modules.Documents.Core.Documents.Types;
+﻿using Factum.Modules.Documents.Core.Documents.Entities;
+using Factum.Modules.Documents.Core.Documents.Types;
 using Factum.Modules.Documents.Core.Documents.ValueObjects;
 using Factum.Shared.Abstractions.Exceptions;
 
@@ -6,10 +7,9 @@ namespace Factum.Modules.Documents.Core.Documents.Exceptions
 {
     internal class AccessNotFoundException : FactumException
     {
-        public AccessNotFoundException(DocumentId documentId, AccessType accessType, UserId userId) : base($"User '{userId}' does not have access '{accessType}' to document '{documentId}'")
+        public AccessNotFoundException(DocumentId documentId, UserId userId) : base($"User '{userId}' does not have access to document '{documentId}'")
         {
             DocumentId = documentId;
-            AccessType = accessType;
             UserId = userId;
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Factum.Modules.Documents.Application.Documents.Policies;
+using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Factum.Modules.Documents.Api")]
@@ -12,6 +13,10 @@ internal static class Extensions
 {
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
+        services.AddScoped<IDocumentAccessPolicy, DocumentAccessPolicy>();
+        services.AddScoped<IDocumentGrantAccessPolicy, DocumentGrantAccessPolicy>();
+        services.AddScoped<IDocumentRevokeAccessPolicy, DocumentRevokeAccessPolicy>();
+        
         return services;
     }
 }

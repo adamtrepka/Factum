@@ -1,13 +1,13 @@
-@url = http://localhost:5000/Documents
+@url = http://localhost:5000
 @documentId = 7D3F4242-C899-4A2F-9026-B083C523A105
 #@documentId = {{$guid}}
 
 
 ### Get document
-GET {{url}}/{{documentId}} HTTP/1.1
+GET {{url}}/Documents/{{documentId}} HTTP/1.1
 
 ### Add document
-POST {{url}} HTTP/1.1
+POST {{url}}/Documents HTTP/1.1
 Accept: application/json
 Content-Type: multipart/form-data; boundary=MyBoundary
 
@@ -20,3 +20,7 @@ Content-Disposition: form-data; name="file"; filename="readme.md"
 
 < ..\..\..\readme.md
 --MyBoundary--
+
+### Grand access to document
+POST {{url}}/Access?documentId={{documentId}}&userId=589fcb9c-7adc-45db-9dcd-5607d6a8d0f6&accessType=reader HTTP/1.1
+Accept: application/json

@@ -14,7 +14,9 @@ namespace Factum.Modules.Documents.Core.Documents.Entities
         public File File { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        public List<Access> Accesses { get; private set; } = new();
+        private readonly List<Access> _accesses;
+
+        public IReadOnlyList<Access> Accesses => _accesses.ToList().AsReadOnly();
 
         private Document()
         {
@@ -36,22 +38,22 @@ namespace Factum.Modules.Documents.Core.Documents.Entities
 
         public void GrantAccess(AccessType type, UserId grantedBy, UserId grantedTo)
         {
-            if (Accesses.Any(x => x.AccessType == type && x.GrantedTo == grantedBy)) throw new AccessAlreadyGrantedException(BusinessId, type, grantedTo);
+            if (_accesses.Any(x => x.GrantedTo == grantedBy)) throw new AccessAlreadyGrantedException(BusinessId, type, grantedTo);
 
             var access = new Access(BusinessId, type, grantedBy, grantedTo);
-            Accesses.Add(access);
+            _accesses.Add(access);
 
             AddEvent(new AccessGranted(access));
             IncrementVersion();
         }
 
-        public void RevokeAccess(AccessType type, UserId userId, UserId revokedBy)
+        public void RevokeAccess(UserId userId, UserId revokedBy)
         {
-            var access = Accesses.FirstOrDefault(x => x.AccessType == type && x.GrantedTo == userId);
+            var access = _accesses.FirstOrDefault(x => x.GrantedTo == userId);
 
-            if (access is null) throw new AccessNotFoundException(BusinessId, type, userId);
+            if (access is null) throw new AccessNotFoundException(BusinessId, userId);
 
-            Accesses.Remove(access);
+            _accesses.Remove(access);
 
             AddEvent(new AccessRevoked(access, revokedBy));
             IncrementVersion();
