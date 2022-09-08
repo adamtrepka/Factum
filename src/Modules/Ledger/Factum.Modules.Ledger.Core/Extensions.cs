@@ -14,7 +14,7 @@ namespace Factum.Modules.Ledger.Core
         public static IServiceCollection AddCore(this IServiceCollection services)
         {
             services.AddScoped<IBlockCreationPolicy, BlockCreationPolicy>();
-            services.AddScoped<IBlockConfirmationPolicy, BlockConfirmationPolicy>();
+            services.AddSingleton<IBlockConfirmationPolicy, BlockConfirmationPolicy>();
 
             return services;
         }

@@ -18,16 +18,13 @@ namespace Factum.Modules.Ledger.Core.Blocks.Entities
 
         }
 
-        public Block(BlockId previousBlockId, byte[] previousBlockHash)
+        public Block(BlockId previousBlockId, byte[] previousBlockHash, byte[] entriesRootHash, List<Entry> entries)
         {
             BusinessId = new BlockId();
             PreviousBlockId = previousBlockId;
             PreviousBlockHash = previousBlockHash;
-        }
-
-        public void SetEntriesRootHash(byte[] entriesRootHash)
-        {
             EntriesRootHash = entriesRootHash;
+            Entries.AddRange(entries);
         }
 
         public void Confirm() => Confirmation++;

@@ -14,7 +14,7 @@ namespace Factum.Modules.Documents.Core.Documents.Entities
         public File File { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        private readonly List<Access> _accesses;
+        private readonly List<Access> _accesses = new();
 
         public IReadOnlyList<Access> Accesses => _accesses.ToList().AsReadOnly();
 

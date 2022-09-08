@@ -1,4 +1,6 @@
-﻿using Factum.Modules.Ledger.Application.Entries.Clients.Documents;
+﻿using Factum.Modules.Ledger.Application.Blocks.Policies;
+using Factum.Modules.Ledger.Application.Entries.Clients.Documents;
+using Factum.Modules.Ledger.Core.Blocks.Policies;
 using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
@@ -14,6 +16,7 @@ internal static class Extensions
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddSingleton<IDocumentApiClient, DocumentApiClient>();
+        services.AddSingleton<IBlockSagaStatusPolicy, BlockSagaStatusPolicy>();
 
         return services;
     }

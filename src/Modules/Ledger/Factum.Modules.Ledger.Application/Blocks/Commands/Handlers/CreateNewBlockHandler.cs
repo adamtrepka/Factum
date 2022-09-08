@@ -23,82 +23,49 @@ namespace Factum.Modules.Ledger.Application.Blocks.Commands.Handlers
         private readonly IMessageBroker _messageBroker;
         private readonly IHasher _hasher;
         private readonly IBlockConfirmationPolicy _blockConfirmationPolicy;
-        private readonly IBlockCreationPolicy _blockCreationPolicy;
         private readonly IBlockRepository _blockRepository;
         private readonly IEntryRepository _entryRepository;
-        private readonly ISagaApiClient _sagaApiClient;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMerkleTree _merkleTree;
 
         public CreateNewBlockHandler(ILogger<CreateNewBlockHandler> logger,
                                      IMessageBroker messageBroker,
                                      IHasher hasher,
                                      IBlockConfirmationPolicy blockConfirmationPolicy,
-                                     IBlockCreationPolicy blockCreationPolicy,
                                      IBlockRepository blockRepository,
                                      IEntryRepository entryRepository,
-                                     ISagaApiClient sagaApiClient,
-                                     IUnitOfWork unitOfWork,
                                      IMerkleTree merkleTree)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _messageBroker = messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
             _blockConfirmationPolicy = blockConfirmationPolicy ?? throw new ArgumentNullException(nameof(blockConfirmationPolicy));
-            _blockCreationPolicy = blockCreationPolicy ?? throw new ArgumentNullException(nameof(blockCreationPolicy));
             _blockRepository = blockRepository ?? throw new ArgumentNullException(nameof(blockRepository));
             _entryRepository = entryRepository ?? throw new ArgumentNullException(nameof(entryRepository));
-            _sagaApiClient = sagaApiClient ?? throw new ArgumentNullException(nameof(sagaApiClient));
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _merkleTree = merkleTree ?? throw new ArgumentNullException(nameof(merkleTree));
         }
         public async Task HandleAsync(CreateNewBlock command, CancellationToken cancellationToken = default)
         {
-            if (!await _blockCreationPolicy.CanCreateNewBlockAsync())
-            {
-                return;
-            }
-
-            var previousBlock = await _blockRepository.GetLastAsync();
-
-            var previousBlockSagaStatus = await _sagaApiClient.Get(previousBlock?.BusinessId?.ToString());
-            
-            _logger.LogInformation($"Found previousBlock: {previousBlock?.BusinessId} with saga status: {previousBlockSagaStatus}");
-            
-            if (previousBlockSagaStatus == "Pending")
-            {
-                return;
-            }
-
-            if (!_blockConfirmationPolicy.BlockWasConfirmed(previousBlock)
-                && previousBlockSagaStatus != "Pending")
-            {
-                _logger.LogInformation($"Block with ID {previousBlock.BusinessId} was not confirmed.");
-                await _messageBroker.PublishAsync(new BlockAdded(previousBlock.BusinessId, previousBlock.Confirmation, _blockConfirmationPolicy.BlockRequiredConfirmation), cancellationToken);
-                return;
-            }
-
-            var previousBlockHash = previousBlock is not null ? _hasher.Hash(previousBlock.MapToDto()) : null;
+            var previousBlockHash = command.PreviousBlock is not null ? _hasher.Hash(command.PreviousBlock.MapToDto()) : null;
 
             var numberOfEntriesToProceed = await CountNumberOfEntriesToProceed();
 
             var entriesToProceed = await _entryRepository.GetWithoutBlock(numberOfEntriesToProceed);
 
-            var newBlock = new Block(previousBlock?.BusinessId, previousBlockHash);
-
-            foreach(var entry in entriesToProceed)
+            foreach (var entry in entriesToProceed)
             {
                 var entryMetadata = entry.Metadata.ToDictionary(x => x.Key, x => x.Value);
                 var entryMetadataHash = _hasher.Hash(entryMetadata);
-                entry.AttatchToBlock(newBlock.BusinessId, entryMetadataHash);
+                entry.SetMetadataHash(entryMetadataHash);
             }
 
-            var merkleTreeResult =  _merkleTree.BuildTree(entriesToProceed.Select(x => x.MetadataHash));
-            newBlock.SetEntriesRootHash(merkleTreeResult.Root.Hash);
+            var merkleTreeResult = _merkleTree.BuildTree(entriesToProceed.Select(x => x.MetadataHash));
+
+            var newBlock = new Block(command.PreviousBlock?.BusinessId, previousBlockHash, merkleTreeResult.Root.Hash, entriesToProceed);
 
             await _blockRepository.AddAsync(newBlock);
 
             await _messageBroker.PublishAsync(new BlockAdded(newBlock.BusinessId, 0, _blockConfirmationPolicy.BlockRequiredConfirmation), cancellationToken);
+
             _logger.LogInformation($"Block with ID '{newBlock.BusinessId}' and '{numberOfEntriesToProceed}' entries was added.");
         }
 

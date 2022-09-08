@@ -23,12 +23,11 @@ namespace Factum.Modules.Ledger.Core.Entries.Entities
         public Entry(EntryId businessId, Dictionary<string, string> metadata)
         {
             BusinessId = businessId;
-            Metadata = metadata.Select(x => new EntryMetadata(businessId, x.Key, x.Value)).ToList();
+            Metadata = metadata.Select(x => new EntryMetadata(businessId, x.Key, x.Value)).ToList();            
         }
 
-        public void AttatchToBlock(BlockId blockId, byte[] metadataHash)
+        public void SetMetadataHash(byte[] metadataHash)
         {
-            BlockId = blockId;
             MetadataHash = metadataHash;
         }
 

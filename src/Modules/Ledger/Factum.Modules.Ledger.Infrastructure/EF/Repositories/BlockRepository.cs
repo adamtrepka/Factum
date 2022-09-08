@@ -29,8 +29,12 @@ namespace Factum.Modules.Ledger.Infrastructure.EF.Repositories
         public async Task DeleteAsync(BlockId id)
         {
             var block = await _blocks.IgnoreAutoIncludes().FirstOrDefaultAsync(x => x.BusinessId == id);
-            _blocks.Remove(block);
-            await _ledgerDbContext.SaveChangesAsync();
+
+            if (block is not null)
+            {
+                _blocks.Remove(block);
+                await _ledgerDbContext.SaveChangesAsync();
+            }
         }
 
         public Task<Block> GetAsync(BlockId id)

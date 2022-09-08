@@ -1,23 +1,23 @@
-﻿using Factum.Modules.Ledger.Application.Blocks.Commands;
-using Factum.Modules.Ledger.Core.Entries.Entities;
+﻿using Factum.Modules.Ledger.Core.Entries.Entities;
+using Factum.Modules.Ledger.Core.Entries.Events;
 using Factum.Modules.Ledger.Core.Entries.Repositories;
-using Factum.Shared.Abstractions.Dispatchers;
 using Factum.Shared.Abstractions.Events;
+using Factum.Shared.Abstractions.Kernel;
 using Microsoft.Extensions.Logging;
 
 namespace Factum.Modules.Ledger.Application.Entries.Events.External.Handlers
 {
-    internal class AccessGrantedHandler : IEventHandler<DocumentAccessGranted>
+    internal class DocumentAccessGrantedHandler : IEventHandler<DocumentAccessGranted>
     {
-        private readonly ILogger<AccessGrantedHandler> _logger;
+        private readonly ILogger<DocumentAccessGrantedHandler> _logger;
         private readonly IEntryRepository _entryRepository;
-        private readonly IDispatcher _dispatcher;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public AccessGrantedHandler(ILogger<AccessGrantedHandler> logger, IEntryRepository entryRepository, IDispatcher dispatcher)
+        public DocumentAccessGrantedHandler(ILogger<DocumentAccessGrantedHandler> logger, IEntryRepository entryRepository, IDomainEventDispatcher domainEventDispatcher)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _entryRepository = entryRepository ?? throw new ArgumentNullException(nameof(entryRepository));
-            _dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher));
+            _domainEventDispatcher = domainEventDispatcher ?? throw new ArgumentNullException(nameof(domainEventDispatcher));
         }
         public async Task HandleAsync(DocumentAccessGranted @event, CancellationToken cancellationToken = default)
         {
@@ -37,7 +37,7 @@ namespace Factum.Modules.Ledger.Application.Entries.Events.External.Handlers
 
             _logger.LogInformation($"Created a new entry based on granted access with ID: '{@event.AccessId}'.");
 
-            await _dispatcher.SendAsync(new CreateNewBlock(), cancellationToken);
+            await _domainEventDispatcher.DispatchAsync(new EntryAdded(), cancellationToken);
         }
     }
 }
