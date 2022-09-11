@@ -2,7 +2,7 @@
 ![Blockchain](assets/factum.png)
 ## About
 
-Factum is the sample document workflow based on blockchain. Application was built as Modular Monolith, written in .NET 6.0. Each module is an independent vertical slice with its custom architecture, and the overall integration between the modules is mostly based on the event-driven approach to achieve greater autonomy between the modules. 
+Factum is a demonstration of a document workflow based on blockchain. The application was built as Modular Monolith, written in .NET 6.0. Each module is an independent vertical slice with its custom architecture. In order to enhance autonomy between modules, the Integration is based on the event-driven approach.
 
 ## Starting the application
 Start project and infrastructure using docker
