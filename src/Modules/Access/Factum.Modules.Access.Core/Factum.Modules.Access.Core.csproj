@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Factum.Shared.Abstractions\Factum.Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Factum.Shared.Infrastructure\Factum.Shared.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

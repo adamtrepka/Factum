@@ -55,9 +55,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Shared.Tests", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{086CFA3F-4246-4928-ACBE-7D6795721F35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Users.Api", "src\Modules\Users\Factum.Modules.Users.Api\Factum.Modules.Users.Api.csproj", "{12F19D76-F4B6-499E-83D0-92271CB1B7B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Users.Api", "src\Modules\Users\Factum.Modules.Users.Api\Factum.Modules.Users.Api.csproj", "{12F19D76-F4B6-499E-83D0-92271CB1B7B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Users.Core", "src\Modules\Users\Factum.Modules.Users.Core\Factum.Modules.Users.Core.csproj", "{EC60DE7D-4C58-4C21-93CA-CACABC7F69DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Factum.Modules.Users.Core", "src\Modules\Users\Factum.Modules.Users.Core\Factum.Modules.Users.Core.csproj", "{EC60DE7D-4C58-4C21-93CA-CACABC7F69DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Access", "Access", "{1D1C5C55-439A-486D-81AD-932EAF42365C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Access.Api", "src\Modules\Access\Factum.Modules.Access.Api\Factum.Modules.Access.Api.csproj", "{47C509DE-8C42-40B5-8AEF-96E6199C3A77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factum.Modules.Access.Core", "src\Modules\Access\Factum.Modules.Access.Core\Factum.Modules.Access.Core.csproj", "{8FE7ECB3-FD83-48C3-A020-AA9726B73162}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +147,14 @@ Global
 		{EC60DE7D-4C58-4C21-93CA-CACABC7F69DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC60DE7D-4C58-4C21-93CA-CACABC7F69DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC60DE7D-4C58-4C21-93CA-CACABC7F69DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47C509DE-8C42-40B5-8AEF-96E6199C3A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47C509DE-8C42-40B5-8AEF-96E6199C3A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47C509DE-8C42-40B5-8AEF-96E6199C3A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47C509DE-8C42-40B5-8AEF-96E6199C3A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FE7ECB3-FD83-48C3-A020-AA9726B73162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FE7ECB3-FD83-48C3-A020-AA9726B73162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FE7ECB3-FD83-48C3-A020-AA9726B73162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FE7ECB3-FD83-48C3-A020-AA9726B73162}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +185,9 @@ Global
 		{086CFA3F-4246-4928-ACBE-7D6795721F35} = {2A45B56B-887D-424E-B692-F35A79A23047}
 		{12F19D76-F4B6-499E-83D0-92271CB1B7B3} = {086CFA3F-4246-4928-ACBE-7D6795721F35}
 		{EC60DE7D-4C58-4C21-93CA-CACABC7F69DA} = {086CFA3F-4246-4928-ACBE-7D6795721F35}
+		{1D1C5C55-439A-486D-81AD-932EAF42365C} = {2A45B56B-887D-424E-B692-F35A79A23047}
+		{47C509DE-8C42-40B5-8AEF-96E6199C3A77} = {1D1C5C55-439A-486D-81AD-932EAF42365C}
+		{8FE7ECB3-FD83-48C3-A020-AA9726B73162} = {1D1C5C55-439A-486D-81AD-932EAF42365C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {35BABB60-AF50-42A9-8EAB-79B7A1142E81}

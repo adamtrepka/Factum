@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Access\Factum.Modules.Access.Api\Factum.Modules.Access.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Documents\Factum.Modules.Documents.Api\Factum.Modules.Documents.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Ledger\Factum.Modules.Ledger.Api\Factum.Modules.Ledger.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Saga\Factum.Modules.Saga.Api\Factum.Modules.Saga.Api.csproj" />

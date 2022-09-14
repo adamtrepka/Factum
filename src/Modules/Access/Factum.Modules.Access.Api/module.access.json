@@ -1,0 +1,8 @@
+{
+  "access": {
+    "module": {
+      "name": "access",
+      "enabled": true
+    }
+  }
+}

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Factum.Shared.Abstractions\Factum.Shared.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Factum.Shared.Infrastructure\Factum.Shared.Infrastructure.csproj" />
+    <ProjectReference Include="..\Factum.Modules.Access.Core\Factum.Modules.Access.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="module.access.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
