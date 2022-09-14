@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Factum.Modules.Ledger.Application.Entries.Events.External
 {
-    internal record DocumentAccessRevoked(Guid AccessId, Guid DocumentId, string AccessType, Guid RevokedBy, Guid RevokedTo) : IEvent;
+    internal record AccessRevoked(Guid DocumentId, Guid RevokedBy, Guid RevokedTo) : IEvent;
 
-    [Message("documents")]
-    internal class DocumentAccessRevokedContract : Contract<DocumentAccessRevoked>
+    [Message("access")]
+    internal class AccessRevokedContract : Contract<AccessRevoked>
     {
-        public DocumentAccessRevokedContract()
+        public AccessRevokedContract()
         {
             RequireAll();
         }

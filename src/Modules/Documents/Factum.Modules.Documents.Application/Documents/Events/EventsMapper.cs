@@ -11,9 +11,7 @@ namespace Factum.Modules.Documents.Application.Documents.Events
         public IMessage Map(IDomainEvent @event)
             => @event switch
             {
-                DocumentCreated e => new DocumentAdded(e.Document.BusinessId),
-                AccessGranted e => new DocumentAccessGranted(e.Access.BusinessId, e.Access.DocumentId, e.Access.AccessType, e.Access.GrantedBy, e.Access.GrantedTo),
-                AccessRevoked e => new DocumentAccessRevoked(e.Access.BusinessId, e.Access.DocumentId, e.Access.AccessType, e.RevokedBy, e.Access.GrantedTo),
+                DocumentCreated e => new DocumentAdded(e.Document.BusinessId,e.CreatedBy),
                 _ => null
             };
 

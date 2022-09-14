@@ -50,21 +50,19 @@ namespace Factum.Modules.Documents.Application.Documents.Commands.Handlers
         }
         public async Task HandleAsync(AddDocument command, CancellationToken cancellationToken = default)
         {
-            var document = new Document(command.documentId, _clock.CurrentDate());
+            var document = new Document(command.documentId, _context.Identity.Id, _clock.CurrentDate());
 
             using var fileStream = command.file.OpenReadStream();
 
             var fileHash = _hasher.Hash(fileStream);
             document.AttachedFile(command.file.Name, command.file.ContentType, fileHash);
 
-            document.GrantAccess("owner", _context.Identity.Id, _context.Identity.Id);
-
             await _repository.AddAsync(document);
 
             await _blobStorage.UploadAsync(fileStream, document.BusinessId.ToString(), command.file.FileName, cancellationToken);
 
             var messages = _eventMapper.MapAll(document.Events);
-            
+
             await _messageBroker.PublishAsync(messages, cancellationToken);
 
             _logger.LogInformation($"Created a new document with ID: '{document.BusinessId}'");

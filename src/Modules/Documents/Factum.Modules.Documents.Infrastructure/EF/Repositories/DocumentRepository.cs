@@ -27,18 +27,10 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<Document> GetAsync(DocumentId id, Expression<Func<Access, bool>> accessFilter = null)
-        {
-            Expression<Func<Access, bool>> accessPredicate = x => true;
+        public Task<Document> GetAsync(DocumentId id)
+            => _documents.Include(x => x.Entitlements)
+                         .SingleOrDefaultAsync(x => x.BusinessId == id);
 
-            if (accessFilter is not null)
-            {
-                accessPredicate = accessPredicate.And(accessFilter);
-            }
-
-            return _documents.Include(x => x.Accesses.AsQueryable().Where(accessPredicate))
-                        .SingleOrDefaultAsync(x => x.BusinessId == id);
-        }
 
         public async Task UpdateAsync(Document document)
         {

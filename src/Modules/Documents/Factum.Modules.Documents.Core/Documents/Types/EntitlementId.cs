@@ -3,16 +3,16 @@ using System;
 
 namespace Factum.Modules.Documents.Core.Documents.Types
 {
-    internal class AccessId : TypeId
+    internal class EntitlementId : TypeId
     {
-        public AccessId() : base(Guid.NewGuid())
+        public EntitlementId() : base(Guid.NewGuid())
         {
 
         }
-        public AccessId(Guid value) : base(value)
+        public EntitlementId(Guid value) : base(value)
         {
         }
         public override string ToString() => Value.ToString();
-        public static implicit operator AccessId(Guid id) => new(id);
+        public static implicit operator EntitlementId(Guid id) => new(id);
     }
 }

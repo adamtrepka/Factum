@@ -7,35 +7,33 @@ using Microsoft.Extensions.Logging;
 
 namespace Factum.Modules.Ledger.Application.Entries.Events.External.Handlers
 {
-    internal class DocumentAccessGrantedHandler : IEventHandler<DocumentAccessGranted>
+    internal class AccessGrantedHandler : IEventHandler<AccessGranted>
     {
-        private readonly ILogger<DocumentAccessGrantedHandler> _logger;
+        private readonly ILogger<AccessGrantedHandler> _logger;
         private readonly IEntryRepository _entryRepository;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public DocumentAccessGrantedHandler(ILogger<DocumentAccessGrantedHandler> logger, IEntryRepository entryRepository, IDomainEventDispatcher domainEventDispatcher)
+        public AccessGrantedHandler(ILogger<AccessGrantedHandler> logger, IEntryRepository entryRepository, IDomainEventDispatcher domainEventDispatcher)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _entryRepository = entryRepository ?? throw new ArgumentNullException(nameof(entryRepository));
             _domainEventDispatcher = domainEventDispatcher ?? throw new ArgumentNullException(nameof(domainEventDispatcher));
         }
-        public async Task HandleAsync(DocumentAccessGranted @event, CancellationToken cancellationToken = default)
+        public async Task HandleAsync(AccessGranted @event, CancellationToken cancellationToken = default)
         {
             var metadata = new Dictionary<string, string>()
             {
-                {"Type",nameof(DocumentAccessGranted)},
-                {nameof(@event.AccessId),@event.AccessId.ToString()},
+                {"Type",nameof(AccessGranted)},
                 {nameof(@event.DocumentId),@event.DocumentId.ToString()},
-                {nameof(@event.AccessType),@event.AccessType.ToString()},
                 {nameof(@event.GrantedBy),@event.GrantedBy.ToString()},
                 {nameof(@event.GrantedTo),@event.GrantedTo.ToString()}
             };
 
-            var entry = new Entry(@event.AccessId, metadata);
+            var entry = new Entry(metadata);
 
             await _entryRepository.AddAsync(entry);
 
-            _logger.LogInformation($"Created a new entry based on granted access with ID: '{@event.AccessId}'.");
+            _logger.LogInformation($"Created a new entry based on granted access.");
 
             await _domainEventDispatcher.DispatchAsync(new EntryAdded(), cancellationToken);
         }

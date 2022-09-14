@@ -14,8 +14,6 @@ internal static class Extensions
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
         services.AddScoped<IDocumentAccessPolicy, DocumentAccessPolicy>();
-        services.AddScoped<IDocumentGrantAccessPolicy, DocumentGrantAccessPolicy>();
-        services.AddScoped<IDocumentRevokeAccessPolicy, DocumentRevokeAccessPolicy>();
         
         return services;
     }

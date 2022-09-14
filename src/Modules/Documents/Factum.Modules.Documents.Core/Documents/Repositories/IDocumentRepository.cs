@@ -8,7 +8,7 @@ namespace Factum.Modules.Documents.Core.Documents.Repositories
 {
     internal interface IDocumentRepository
     {
-        Task<Document> GetAsync(DocumentId id, Expression<Func<Access, bool>> accessFilter = null);
+        Task<Document> GetAsync(DocumentId id);
         Task AddAsync(Document wallet);
         Task UpdateAsync(Document document);
     }

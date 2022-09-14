@@ -14,7 +14,7 @@ namespace Factum.Modules.Documents.Application.Documents.Policies
         }
         public bool IsDocumentAccessAllowed(Document document)
         {
-            if (document?.Accesses?.Any(x => x.GrantedTo == _context.Identity.Id) ?? false)
+            if (document?.Entitlements?.Any(x => x.UserId == _context.Identity.Id) ?? false)
                 return true;
             else
                 return false; 

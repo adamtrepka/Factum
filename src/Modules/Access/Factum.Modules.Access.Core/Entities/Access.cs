@@ -23,7 +23,7 @@ namespace Factum.Modules.Access.Core.Entities
 
         public Access(DocumentId documentId, AccessType type, UserId grantedBy, UserId grantedTo)
         {
-            BusinessId = new();
+            BusinessId = Guid.NewGuid();
             DocumentId = documentId;
             Type = type;
             GrantedBy = grantedBy;

@@ -14,21 +14,21 @@ namespace Factum.Modules.Documents.Core.Documents.Entities
         public File File { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        private readonly List<Access> _accesses = new();
+        private readonly List<Entitlement> _entitlements = new();
 
-        public IReadOnlyList<Access> Accesses => _accesses.ToList().AsReadOnly();
+        public IReadOnlyList<Entitlement> Entitlements => _entitlements.ToList().AsReadOnly();
 
         private Document()
         {
 
         }
 
-        public Document(DocumentId documentId, DateTime createdAt)
+        public Document(DocumentId documentId, UserId createdBy, DateTime createdAt)
         {
             BusinessId = documentId;
             CreatedAt = createdAt;
 
-            AddEvent(new DocumentCreated(this));
+            AddEvent(new DocumentCreated(this, createdBy));
         }
 
         public void AttachedFile(string name, string contentType, byte[] hash)
@@ -36,27 +36,26 @@ namespace Factum.Modules.Documents.Core.Documents.Entities
             File = new File(name, contentType, hash);
         }
 
-        public void GrantAccess(AccessType type, UserId grantedBy, UserId grantedTo)
+        public void AddEntitlement(UserId userId)
         {
-            if (_accesses.Any(x => x.GrantedTo == grantedBy)) throw new AccessAlreadyGrantedException(BusinessId, type, grantedTo);
+            if (_entitlements.Any(x => x.UserId == userId)) return;
 
-            var access = new Access(BusinessId, type, grantedBy, grantedTo);
-            _accesses.Add(access);
+            var entitlement = new Entitlement(this.BusinessId, userId);
+            _entitlements.Add(entitlement);
 
-            AddEvent(new AccessGranted(access));
             IncrementVersion();
         }
 
-        public void RevokeAccess(UserId userId, UserId revokedBy)
+        public void RemoveEntitlement(UserId userId)
         {
-            var access = _accesses.FirstOrDefault(x => x.GrantedTo == userId);
+            var entitlement = _entitlements.FirstOrDefault(x => x.UserId == userId);
 
-            if (access is null) throw new AccessNotFoundException(BusinessId, userId);
+            if (entitlement is not null)
+            {
+                _entitlements.Remove(entitlement);
 
-            _accesses.Remove(access);
-
-            AddEvent(new AccessRevoked(access, revokedBy));
-            IncrementVersion();
+                IncrementVersion();
+            }
         }
     }
 }

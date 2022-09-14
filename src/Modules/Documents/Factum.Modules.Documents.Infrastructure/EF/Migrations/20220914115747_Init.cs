@@ -68,23 +68,20 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Accesses",
+                name: "Entitlement",
                 schema: "documents",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    AccessType = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    GrantedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GrantedTo = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accesses", x => x.Id);
+                    table.PrimaryKey("PK_Entitlement", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Accesses_Documents_DocumentId",
+                        name: "FK_Entitlement_Documents_DocumentId",
                         column: x => x.DocumentId,
                         principalSchema: "documents",
                         principalTable: "Documents",
@@ -92,32 +89,23 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Accesses_BusinessId",
-                schema: "documents",
-                table: "Accesses",
-                column: "BusinessId",
-                unique: true,
-                filter: "[BusinessId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accesses_DocumentId_AccessType_GrantedTo",
-                schema: "documents",
-                table: "Accesses",
-                columns: new[] { "DocumentId", "AccessType", "GrantedTo" })
-                .Annotation("SqlServer:Clustered", false);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Documents_BusinessId",
                 schema: "documents",
                 table: "Documents",
                 column: "BusinessId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Entitlement_DocumentId",
+                schema: "documents",
+                table: "Entitlement",
+                column: "DocumentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Accesses",
+                name: "Entitlement",
                 schema: "documents");
 
             migrationBuilder.DropTable(

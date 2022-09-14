@@ -23,42 +23,6 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Access", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("AccessType")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid?>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("DocumentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("GrantedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("GrantedTo")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BusinessId")
-                        .IsUnique()
-                        .HasFilter("[BusinessId] IS NOT NULL");
-
-                    b.HasIndex("DocumentId", "AccessType", "GrantedTo");
-
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("DocumentId", "AccessType", "GrantedTo"), false);
-
-                    b.ToTable("Accesses", "documents");
-                });
-
             modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Document", b =>
                 {
                     b.Property<int>("Id")
@@ -140,18 +104,33 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                     b.ToTable("Outbox", "documents");
                 });
 
-            modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Access", b =>
-                {
-                    b.HasOne("Factum.Modules.Documents.Core.Documents.Entities.Document", "Document")
-                        .WithMany("Accesses")
-                        .HasForeignKey("DocumentId")
-                        .HasPrincipalKey("BusinessId");
-
-                    b.Navigation("Document");
-                });
-
             modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Document", b =>
                 {
+                    b.OwnsMany("Factum.Modules.Documents.Core.Documents.Entities.Entitlement", "Entitlements", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
+
+                            b1.Property<Guid?>("DocumentId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<Guid?>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("DocumentId");
+
+                            b1.ToTable("Entitlement", "documents");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DocumentId")
+                                .HasPrincipalKey("BusinessId");
+                        });
+
                     b.OwnsOne("Factum.Modules.Documents.Core.Documents.ValueObjects.File", "File", b1 =>
                         {
                             b1.Property<int>("DocumentId")
@@ -175,12 +154,9 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Migrations
                                 .HasForeignKey("DocumentId");
                         });
 
-                    b.Navigation("File");
-                });
+                    b.Navigation("Entitlements");
 
-            modelBuilder.Entity("Factum.Modules.Documents.Core.Documents.Entities.Document", b =>
-                {
-                    b.Navigation("Accesses");
+                    b.Navigation("File");
                 });
 #pragma warning restore 612, 618
         }

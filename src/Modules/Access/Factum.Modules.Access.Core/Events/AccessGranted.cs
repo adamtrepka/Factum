@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Factum.Modules.Documents.Application.Documents.Events
+namespace Factum.Modules.Access.Core.Events
 {
-    internal record DocumentAdded(Guid documentId, Guid addedBy) : IEvent;
+    internal record AccessGranted(Guid DocumentId, Guid GrantedBy, Guid GrantedTo) : IEvent;
 }

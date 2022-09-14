@@ -1,5 +1,7 @@
 ﻿using Factum.Modules.Access.Core;
+using Factum.Modules.Access.Core.Events.External;
 using Factum.Shared.Abstractions.Modules;
+using Factum.Shared.Infrastructure.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +23,8 @@ namespace Factum.Modules.Access.Api
 
         public void Use(IApplicationBuilder app)
         {
-            
+            app.UseContracts()
+               .Register<DocumentAddedContract>();
         }
     }
 }

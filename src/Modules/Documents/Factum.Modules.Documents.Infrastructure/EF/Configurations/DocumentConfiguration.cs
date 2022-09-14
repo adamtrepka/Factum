@@ -2,11 +2,6 @@
 using Factum.Modules.Documents.Core.Documents.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Factum.Modules.Documents.Infrastructure.EF.Configurations
 {
@@ -25,9 +20,19 @@ namespace Factum.Modules.Documents.Infrastructure.EF.Configurations
             builder.OwnsOne(x => x.File)
                 .Property(x => x.Hash).IsRequired(true);
 
-            builder.HasMany(x => x.Accesses).WithOne(x => x.Document).HasForeignKey(x => x.DocumentId);
+            builder.Navigation(x => x.Entitlements).UsePropertyAccessMode(PropertyAccessMode.Field);
 
-            builder.Navigation(x => x.Accesses).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.OwnsMany(x => x.Entitlements,navigationBuilder =>
+            {
+                navigationBuilder.HasKey(c => c.Id);
+                navigationBuilder.Property(c => c.UserId)
+                                 .HasConversion(x => x.Value, x => new(x));
+
+                navigationBuilder.Property(x => x.DocumentId)
+                                 .HasConversion(x => x.Value, x => new(x));
+
+                navigationBuilder.WithOwner().HasForeignKey(x => x.DocumentId).HasPrincipalKey(x => x.BusinessId);
+            });
         }
     }
 }
