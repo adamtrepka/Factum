@@ -29,10 +29,11 @@ Web application responsible for initializing and starting all the modules - load
 
 **Autonomous modules** with the different set of responsibilities, highly decoupled from each other - there's no reference between the modules at all (such as shared projects for the common data contracts), and the synchronous communication & asynchronous integration (via events) is based on **local contracts** approach.
 
-- Documents - managing the documents and access to them.
+- Documents - managing the documents.
 - Ledger - saving business-important operations in the blockchain structure.
 - Validation - validation of newly created blockchain blocks.
 - Saga - transactional handling for the creation and validation of new blockchain blocks.
+- Access - managing access to documents.
 - Users - managing the users/identity.
 
 Each module contains its own HTTP requests definitions file (.rest) using REST Client extension.
