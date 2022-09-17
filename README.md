@@ -54,8 +54,8 @@ Each block contains data about previous block and merkle tree root hash build fr
 
 - Integration with [RabbitMq](https://www.rabbitmq.com/) message broker.
 - Integration with [Azure Service Bus](https://azure.microsoft.com/en-us/services/service-bus/) message broker.
-- Integration with [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/) message broker.
-- Integration with [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) message broker.
+- Integration with [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/).
+- Integration with [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/).
 
 ## Additional resources
 - [Modular Framework](https://github.com/devmentors/modular-framework) - project containing the shared components used in this project.
